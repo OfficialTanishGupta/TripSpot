@@ -1,0 +1,77 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: 'Space Grotesk', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
+  --font-sans: 'Inter', system-ui, sans-serif;
+
+  --color-ink: #0B1220;
+  --color-ink-soft: #171A2B;
+  --color-surface: #12172A;
+  --color-surface-raised: #1A2038;
+  --color-line: #262C46;
+  --color-mist: #8E97B8;
+  --color-mist-soft: #5C6488;
+
+  --color-violet: #8B7CFF;
+  --color-violet-soft: #2A2557;
+  --color-blue: #4F9DFF;
+  --color-blue-soft: #17273F;
+  --color-emerald: #34E0A1;
+  --color-emerald-soft: #123B2E;
+  --color-amber: #FFB84D;
+  --color-amber-soft: #3A2A11;
+  --color-pink: #FF6FA5;
+  --color-pink-soft: #3A1A2D;
+
+  --animate-kenburns: kenburns 18s ease-in-out infinite alternate;
+  --animate-fade-up: fadeUp 500ms ease backwards;
+  --animate-shimmer: shimmer 2.2s linear infinite;
+
+  @keyframes kenburns {
+    0% { transform: scale(1) translate(0, 0); }
+    100% { transform: scale(1.12) translate(-1.5%, -1%); }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes shimmer {
+    0% { background-position: -400px 0; }
+    100% { background-position: 400px 0; }
+  }
+}
+
+@layer base {
+  body {
+    background: var(--color-ink);
+    color: #F4F5FA;
+    font-family: var(--font-sans);
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.01em;
+  }
+  ::selection {
+    background: var(--color-violet);
+    color: #fff;
+  }
+}
+
+@layer utilities {
+  .glass {
+    background: rgba(26, 32, 56, 0.55);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+  .text-gradient {
+    background: linear-gradient(120deg, #8B7CFF, #4F9DFF 60%, #34E0A1);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+}

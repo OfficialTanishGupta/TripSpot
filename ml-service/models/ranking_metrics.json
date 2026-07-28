@@ -1,0 +1,28 @@
+{
+  "n_train_rows": 145340,
+  "n_test_rows": 36336,
+  "accuracy": 0.8606,
+  "roc_auc": 0.9393,
+  "feature_importance": {
+    "price_rel_to_cheapest": 0.193,
+    "rating": 0.1649,
+    "mode_FLIGHT": 0.1474,
+    "avg_price_ratio": 0.116,
+    "avg_group_size": 0.0784,
+    "mode_BUS": 0.077,
+    "mode_share_flight": 0.0652,
+    "mode_share_bus": 0.0493,
+    "mode_share_train": 0.0296,
+    "mode_share_cab": 0.019,
+    "mode_CAB": 0.0184,
+    "mode_TRAIN": 0.0183,
+    "child_trip_ratio": 0.0053,
+    "avg_advance_days": 0.0048,
+    "weekend_ratio": 0.0047,
+    "avg_children": 0.0023,
+    "duration_rank": 0.0019,
+    "total_trips": 0.0017,
+    "solo_trip_ratio": 0.0015,
+    "trips_last_90d": 0.0013
+  }
+}

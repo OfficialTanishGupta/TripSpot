@@ -1,0 +1,19 @@
+{
+  "n_clusters": 5,
+  "silhouette_score": 0.3439,
+  "adjusted_rand_index_vs_synthetic_ground_truth": 0.8369,
+  "cluster_sizes": {
+    "0": 588,
+    "1": 603,
+    "2": 768,
+    "3": 610,
+    "4": 431
+  },
+  "cluster_to_persona": {
+    "0": "Weekend Explorer",
+    "1": "Family Group Traveler",
+    "2": "Frequent Business Flyer",
+    "3": "Solo Budget Traveler",
+    "4": "Frequent Business Flyer"
+  }
+}

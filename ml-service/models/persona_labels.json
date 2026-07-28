@@ -1,0 +1,24 @@
+{
+  "feature_columns": [
+    "total_trips",
+    "trips_last_90d",
+    "avg_group_size",
+    "solo_trip_ratio",
+    "avg_children",
+    "child_trip_ratio",
+    "mode_share_cab",
+    "mode_share_train",
+    "mode_share_bus",
+    "mode_share_flight",
+    "avg_price_ratio",
+    "avg_advance_days",
+    "weekend_ratio"
+  ],
+  "cluster_to_persona": {
+    "0": "Weekend Explorer",
+    "1": "Family Group Traveler",
+    "2": "Frequent Business Flyer",
+    "3": "Solo Budget Traveler",
+    "4": "Frequent Business Flyer"
+  }
+}

@@ -11,6 +11,12 @@ export const HERO_PHOTOS = [
   photo('india-himalayas', 1200, 1400),
 ];
 
+export const MARQUEE_COLUMNS = [
+  [photo('marquee-a1', 400, 550), photo('marquee-a2', 400, 550), photo('marquee-a3', 400, 550), photo('marquee-a4', 400, 550)],
+  [photo('marquee-b1', 400, 550), photo('marquee-b2', 400, 550), photo('marquee-b3', 400, 550), photo('marquee-b4', 400, 550)],
+  [photo('marquee-c1', 400, 550), photo('marquee-c2', 400, 550), photo('marquee-c3', 400, 550), photo('marquee-c4', 400, 550)],
+];
+
 export const POPULAR_ROUTES = [
   { from: 'Lucknow', to: 'Delhi', priceFrom: 480, accent: '#4F9DFF', photo: photo('lucknow-delhi', 500, 360) },
   { from: 'Mumbai', to: 'Goa', priceFrom: 890, accent: '#34E0A1', photo: photo('mumbai-goa', 500, 360) },

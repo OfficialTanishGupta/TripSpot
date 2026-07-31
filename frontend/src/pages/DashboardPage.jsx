@@ -1,24 +1,23 @@
 import { useState } from 'react';
-import { MapPin, Calendar, SlidersHorizontal } from 'lucide-react';
+import { MapPin, Calendar, ArrowLeftRight, BadgePercent } from 'lucide-react';
 import { FloatingInput } from '../components/ui/floating-input';
 import { Button } from '../components/ui/button';
 import { PartyPicker } from '../components/PartyPicker';
+import { ModeTabBar } from '../components/ModeTabBar';
 import PersonaCard from '../components/PersonaCard';
 import DestinationGallery from '../components/DestinationGallery';
 import ResultsBoard from '../components/ResultsBoard';
 import api from '../api/client';
 import { POPULAR_ROUTES, DESTINATION_GALLERY, SAMPLE_RESULTS, SAMPLE_PERSONA } from '../data/sampleData';
 
-const MODES = [
-  { value: '', label: 'All modes' }, { value: 'CAB', label: 'Cab' },
-  { value: 'TRAIN', label: 'Train' }, { value: 'BUS', label: 'Bus' }, { value: 'FLIGHT', label: 'Flight' },
-];
+const FARE_TYPES = ['Regular', 'Student', 'Senior Citizen', 'Armed Forces', 'Doctors & Nurses'];
 
 export default function DashboardPage() {
   const [form, setForm] = useState({
     origin: '', destination: '',
     travelDate: new Date(Date.now() + 86400000).toISOString().slice(0, 10),
     preferredMode: '',
+    fareType: 'Regular',
   });
   const [party, setParty] = useState({ adults: 1, children: 0 });
   const [results, setResults] = useState(SAMPLE_RESULTS);
@@ -55,23 +54,43 @@ export default function DashboardPage() {
 
       <div className="grid grid-cols-[1fr_280px] gap-4 mb-8 max-lg:grid-cols-1">
         <form onSubmit={search} className="rounded-2xl border border-line bg-surface p-5 flex flex-col gap-3.5">
-          <div className="grid grid-cols-2 gap-3">
+          <ModeTabBar value={form.preferredMode} onChange={(v) => setForm({ ...form, preferredMode: v })} />
+
+          <div className="grid grid-cols-[1fr_auto_1fr] gap-3 items-center">
             <FloatingInput label="Leaving from" icon={MapPin} value={form.origin} onChange={update('origin')} required />
+            <button
+              type="button"
+              onClick={() => setForm({ ...form, origin: form.destination, destination: form.origin })}
+              title="Swap origin and destination"
+              className="w-9 h-9 rounded-full border border-line bg-ink-soft text-mist hover:text-white hover:border-blue flex items-center justify-center shrink-0"
+            >
+              <ArrowLeftRight size={15} />
+            </button>
             <FloatingInput label="Going to" icon={MapPin} value={form.destination} onChange={update('destination')} required />
           </div>
-          <div className="grid grid-cols-2 gap-3">
-            <FloatingInput label="Travel date" type="date" icon={Calendar} value={form.travelDate} onChange={update('travelDate')} required />
-            <div className="relative flex items-center">
-              <SlidersHorizontal size={16} className="absolute left-3.5 text-mist-soft pointer-events-none" />
-              <select
-                value={form.preferredMode}
-                onChange={update('preferredMode')}
-                className="w-full h-full rounded-xl border border-line bg-ink-soft text-white text-sm pl-10 pr-3 py-3.5"
-              >
-                {MODES.map((m) => <option key={m.value} value={m.value}>{m.label}</option>)}
-              </select>
+
+          <FloatingInput label="Travel date" type="date" icon={Calendar} value={form.travelDate} onChange={update('travelDate')} required />
+
+          <div>
+            <div className="flex items-center gap-1.5 text-[0.7rem] text-mist-soft uppercase tracking-wide mb-2">
+              <BadgePercent size={13} /> Special fare
+            </div>
+            <div className="flex flex-wrap gap-1.5">
+              {FARE_TYPES.map((f) => (
+                <button
+                  type="button"
+                  key={f}
+                  onClick={() => setForm({ ...form, fareType: f })}
+                  className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
+                    form.fareType === f ? 'bg-blue text-ink' : 'bg-ink-soft text-mist hover:text-white'
+                  }`}
+                >
+                  {f}
+                </button>
+              ))}
             </div>
           </div>
+
           <Button type="submit" className="w-full" disabled={loading}>
             {loading ? 'Checking fares…' : 'Compare fares'}
           </Button>

@@ -1,0 +1,17 @@
+.DS_Store
+*.log
+
+# 1. Ignore everything by default at the root level
+/*
+
+# 2. Allow your global repo configuration files
+!.gitignore
+!README.md
+!docker-compose.yml
+
+# 3. Whitelist the ml-service folder structure
+!ml-service/
+
+# 4. Ignore everything inside ml-service except the data folder
+ml-service/*
+!ml-service/data/

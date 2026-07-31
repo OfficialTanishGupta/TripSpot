@@ -1,0 +1,59 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: tripspot-postgres
+    environment:
+      POSTGRES_DB: tripspot
+      POSTGRES_USER: tripspot
+      POSTGRES_PASSWORD: tripspot
+    ports:
+      - "5432:5432"
+    volumes:
+      - tripspot-pg-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tripspot"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  ml-service:
+    build: ./ml-service
+    container_name: tripspot-ml-service
+    environment:
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+    ports:
+      - "8000:8000"
+
+  backend:
+    build: ./backend
+    container_name: tripspot-backend
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      DB_USER: tripspot
+      DB_PASSWORD: tripspot
+      JWT_SECRET: ${JWT_SECRET:-please-change-this-in-a-real-deployment-32bytes-min}
+      WEBAUTHN_RP_ID: ${WEBAUTHN_RP_ID:-localhost}
+      WEBAUTHN_ORIGIN: ${WEBAUTHN_ORIGIN:-http://localhost:5173}
+      FLIGHTS_API_KEY: ${FLIGHTS_API_KEY:-}
+      ML_SERVICE_URL: http://ml-service:8000
+    ports:
+      - "8080:8080"
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        VITE_API_BASE_URL: http://localhost:8080
+    container_name: tripspot-frontend
+    depends_on:
+      - backend
+    ports:
+      - "5173:80"
+
+volumes:
+  tripspot-pg-data:

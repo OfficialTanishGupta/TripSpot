@@ -3,11 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { Mail, Lock, User, Fingerprint, ShieldCheck, ArrowRight, Compass } from 'lucide-react';
 import { FloatingInput } from '../components/ui/floating-input';
 import { Button } from '../components/ui/button';
-import { HeroMedia } from '../components/HeroMedia';
+import { PhotoMarquee } from '../components/PhotoMarquee';
 import api from '../api/client';
 import { useAuth } from '../context/AuthContext';
 import { registerFingerprint } from '../lib/webauthn';
-import { HERO_PHOTOS, STORY_SLIDES } from '../data/sampleData';
+import { MARQUEE_COLUMNS, STORY_SLIDES } from '../data/sampleData';
 
 export default function GatewayPage() {
   const [mode, setMode] = useState('signup');
@@ -62,10 +62,10 @@ export default function GatewayPage() {
   return (
     <div className="min-h-screen flex max-md:flex-col">
       {/* Visual side */}
-      <div className="relative flex-1 overflow-hidden max-md:h-56">
-        <HeroMedia photos={HERO_PHOTOS} />
-        <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/40 to-ink/10" />
-        <div className="absolute inset-0 bg-gradient-to-r from-ink/70 via-transparent to-transparent" />
+      <div className="relative flex-1 overflow-hidden max-md:h-56 bg-ink">
+        <PhotoMarquee columns={MARQUEE_COLUMNS} />
+        <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/55 to-ink/25" />
+        <div className="absolute inset-0 bg-gradient-to-r from-ink/85 via-ink/30 to-transparent" />
 
         <div className="relative z-10 h-full flex flex-col justify-between p-9 max-md:p-5">
           <div className="flex items-center gap-2.5 font-display font-bold text-white">

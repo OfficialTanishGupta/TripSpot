@@ -93,7 +93,7 @@ export default function GatewayPage() {
   const resetTilt = () => setTilt({ x: 0, y: 0 });
 
   return (
-    <div className="relative z-0 min-h-screen flex items-center justify-center overflow-hidden bg-canvas px-4 py-12 [perspective:1400px]">
+    <div className="relative z-0 h-screen w-screen flex flex-col items-center justify-center overflow-hidden bg-canvas px-4 [perspective:1400px]">
       {/* Vivid moving photo layer — no global fade, just gentle motion */}
       <div className="absolute inset-0 -z-20 saturate-[1.15] contrast-[1.05]">
         <PhotoMarquee columns={MARQUEE_COLUMNS} />
@@ -123,29 +123,33 @@ export default function GatewayPage() {
         TripSpot
       </div>
 
-      <div className="relative z-10 w-full max-w-md">
+      {/* Main Unified Interactive Layout Container */}
+      <div className="relative z-10 w-full max-w-md flex flex-col justify-center items-center h-full max-h-[85vh] gap-y-4 md:gap-y-6">
         {step !== "fingerprint-offer" && (
-          <div className="relative text-center mb-7 animate-fade-up">
-            {/* Localized frosted plate just behind the headline, not the whole page */}
-            <div className="absolute inset-x-[-2rem] inset-y-[-1rem] -z-10 glass rounded-[2rem]" />
-            <h1 className="text-3xl md:text-[2.35rem] font-bold text-ink leading-tight py-2">
-              India, one board of fares away.
+          <div className="relative text-center w-full animate-fade-up px-4">
+            {/* Frosted text backing */}
+            <div className="absolute inset-x-0 inset-y-[-0.75rem] -z-10 glass rounded-2xl opacity-90 backdrop-blur-md" />
+
+            {/* Redesigned Premium Catchy Hero Slogan */}
+            <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-ink leading-tight">
+              India,{" "}
+              <span className="bg-gradient-to-r from-violet via-blue to-emerald bg-clip-text text-transparent">
+                One Fare Board
+              </span>{" "}
+              Away.
             </h1>
-            <p className="text-mist text-sm mt-3 max-w-sm mx-auto leading-relaxed pb-2">
-              Cabs, trains, buses and flights — compared side by side, ranked
-              for how <span className="text-gradient font-semibold">you</span>{" "}
-              actually travel.
+            <p className="text-mist text-xs md:text-sm mt-2 max-w-xs mx-auto leading-relaxed font-medium">
+              Compare fares instantly. Rank how you travel.
             </p>
           </div>
         )}
 
-        {/* Card: real 3D tilt via mouse tracking + strong backdrop blur so photos
-            frost/fade translucently exactly where they pass behind it */}
+        {/* Card: real 3D tilt via mouse tracking */}
         <div
           ref={cardRef}
           onMouseMove={handleMouseMove}
           onMouseLeave={resetTilt}
-          className="glass rounded-3xl shadow-[0_35px_80px_-25px_rgba(60,70,140,0.45)] p-8 max-md:p-6 animate-fade-up backdrop-blur-2xl transition-transform duration-200 ease-out will-change-transform [transform-style:preserve-3d]"
+          className="glass w-full rounded-2xl shadow-[0_25px_60px_-15px_rgba(60,70,140,0.35)] p-5 md:p-6 animate-fade-up backdrop-blur-3xl transition-transform duration-200 ease-out will-change-transform [transform-style:preserve-3d]"
           style={{
             animationDelay: "90ms",
             transform: `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
@@ -153,33 +157,35 @@ export default function GatewayPage() {
         >
           {step === "fingerprint-offer" ? (
             <div className="animate-fade-up">
-              <div className="w-14 h-14 rounded-2xl bg-violet-soft text-violet flex items-center justify-center mb-5 animate-float">
-                <Fingerprint size={26} />
+              <div className="w-12 h-12 rounded-xl bg-violet-soft text-violet flex items-center justify-center mb-4 animate-float">
+                <Fingerprint size={24} />
               </div>
-              <h2 className="text-2xl font-bold text-ink mb-2">
-                Want instant sign-in next time?
+              <h2 className="text-xl font-bold text-ink mb-1">
+                {" "}
+                Want instant sign-in next time?{" "}
               </h2>
-              <p className="text-mist text-sm leading-relaxed mb-6">
-                Turn on fingerprint / Face ID sign-in for this device.
-                Completely optional — your password always works too, and you
-                can switch it off anytime in Settings.
+              <p className="text-mist text-xs leading-relaxed mb-4">
+                {" "}
+                Turn on fingerprint / Face ID sign-in for this device.{" "}
               </p>
-              <div className="flex flex-col gap-2.5">
-                <Button className="w-full" onClick={enableFingerprint}>
-                  <Fingerprint size={18} /> Enable fingerprint sign-in
+              <div className="flex flex-col gap-2">
+                <Button
+                  className="w-full text-xs h-10"
+                  onClick={enableFingerprint}
+                >
+                  <Fingerprint size={16} /> Enable fingerprint sign-in
                 </Button>
                 <Button
                   variant="ghost"
-                  className="w-full"
+                  className="w-full text-xs h-10"
                   onClick={() => finishAndEnter(form._token, form.email)}
                 >
                   Skip for now
                 </Button>
               </div>
-              <div className="flex items-start gap-2 mt-5 p-3 rounded-xl bg-blue-soft text-mist text-xs leading-relaxed">
-                <ShieldCheck size={15} className="shrink-0 mt-0.5 text-blue" />
-                Uses your device's own biometric hardware. TripSpot never sees
-                or stores your fingerprint.
+              <div className="flex items-start gap-2 mt-4 p-2.5 rounded-lg bg-blue-soft text-mist text-[11px] leading-relaxed">
+                <ShieldCheck size={14} className="shrink-0 mt-0.5 text-blue" />{" "}
+                Uses your device's biometric hardware.
               </div>
             </div>
           ) : (
@@ -187,7 +193,7 @@ export default function GatewayPage() {
               className="animate-fade-up"
               style={{ animationDelay: "150ms" }}
             >
-              <div className="relative flex bg-black/[0.04] rounded-xl p-1 mb-7 h-11">
+              <div className="relative flex bg-black/[0.04] rounded-xl p-1 mb-4 h-9">
                 <div
                   className="absolute top-1 bottom-1 rounded-lg bg-white shadow-sm transition-transform duration-300 ease-out"
                   style={{
@@ -202,25 +208,22 @@ export default function GatewayPage() {
                   <button
                     key={m}
                     onClick={() => setMode(m)}
-                    className={`relative z-10 flex-1 rounded-lg text-sm font-semibold transition-colors duration-200 ${
-                      mode === m ? "text-ink" : "text-mist-soft"
-                    }`}
+                    className={`relative z-10 flex-1 rounded-lg text-xs font-bold transition-colors duration-200 ${mode === m ? "text-ink" : "text-mist-soft"}`}
                   >
                     {m === "signup" ? "Create account" : "Sign in"}
                   </button>
                 ))}
               </div>
-
-              <h2 className="text-2xl font-bold text-ink mb-1.5">
+              <h2 className="text-xl font-bold text-ink mb-1">
                 {mode === "signup" ? "Let's get you set up" : "Welcome back"}
               </h2>
-              <p className="text-mist text-sm mb-6">
+              <p className="text-mist text-xs mb-4">
                 {mode === "signup"
                   ? "One board for every way to get there."
                   : "Sign in to see your saved trips."}
               </p>
 
-              <form onSubmit={submit} className="flex flex-col gap-3.5">
+              <form onSubmit={submit} className="flex flex-col gap-2.5">
                 {mode === "signup" && (
                   <FloatingInput
                     label="Full name"
@@ -228,6 +231,7 @@ export default function GatewayPage() {
                     value={form.fullName}
                     onChange={update("fullName")}
                     required
+                    className="h-10 text-sm"
                   />
                 )}
                 <FloatingInput
@@ -237,6 +241,7 @@ export default function GatewayPage() {
                   value={form.email}
                   onChange={update("email")}
                   required
+                  className="h-10 text-sm"
                 />
                 <FloatingInput
                   label="Password"
@@ -246,11 +251,11 @@ export default function GatewayPage() {
                   onChange={update("password")}
                   required
                   minLength={6}
+                  className="h-10 text-sm"
                 />
-
                 <Button
                   type="submit"
-                  className="w-full mt-1.5"
+                  className="w-full mt-2 h-10 text-sm"
                   disabled={loading}
                 >
                   {loading
@@ -258,11 +263,11 @@ export default function GatewayPage() {
                     : mode === "signup"
                       ? "Create account"
                       : "Sign in"}
-                  <ArrowRight size={16} />
+                  <ArrowRight size={14} />
                 </Button>
               </form>
 
-              <p className="text-center text-mist text-sm mt-6">
+              <p className="text-center text-mist text-xs mt-4">
                 {mode === "signup"
                   ? "Already have an account?"
                   : "New to TripSpot?"}{" "}
@@ -279,7 +284,7 @@ export default function GatewayPage() {
           )}
         </div>
 
-        <p className="text-center text-mist-soft text-xs mt-6">
+        <p className="text-center text-mist-soft text-[10px] tracking-wide uppercase font-semibold">
           Secured with end-to-end encryption
         </p>
       </div>

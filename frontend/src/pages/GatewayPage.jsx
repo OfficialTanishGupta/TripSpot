@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Mail,
@@ -17,6 +17,13 @@ import { useAuth } from "../context/AuthContext";
 import { registerFingerprint } from "../lib/webauthn";
 import { MARQUEE_COLUMNS } from "../data/sampleData";
 
+const HEADLINES = [
+  "Map out your budget. Unlock the world.",
+  "The economy tickets often lead to the richest stories.",
+  "Travel light on spending, heavy on experiences.",
+  "Compare the fares, live the adventures.",
+];
+
 export default function GatewayPage() {
   const [mode, setMode] = useState("signup");
   const [step, setStep] = useState("form");
@@ -26,6 +33,20 @@ export default function GatewayPage() {
   const cardRef = useRef(null);
   const { login } = useAuth();
   const navigate = useNavigate();
+
+  const [headlineIndex, setHeadlineIndex] = useState(0);
+  const [fading, setFading] = useState(false);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setFading(true);
+      setTimeout(() => {
+        setHeadlineIndex((i) => (i + 1) % HEADLINES.length);
+        setFading(false);
+      }, 450); // matches transition duration below
+    }, 3800);
+    return () => clearInterval(interval);
+  }, []);
 
   const update = (field) => (e) =>
     setForm({ ...form, [field]: e.target.value });
@@ -115,32 +136,45 @@ export default function GatewayPage() {
         <span className="absolute -bottom-36 left-[15%] w-[460px] h-[460px] rounded-full bg-emerald blur-3xl opacity-50 animate-blob-slower" />
       </div>
 
-      {/* Brand mark, own small frosted plate so it stays legible over photos */}
-      <div className="absolute top-6 left-6 md:top-8 md:left-8 flex items-center gap-2.5 font-display font-bold text-ink z-10 px-3 py-1.5 rounded-xl glass shadow-sm">
-        <span className="w-7 h-7 rounded-lg bg-violet-soft flex items-center justify-center text-violet">
-          <Compass size={16} />
-        </span>
-        TripSpot
+      {/* Brand mark — no box, just logo + wordmark with a drop-shadow for legibility over photos */}
+      <div className="absolute top-6 left-6 md:top-8 md:left-8 flex items-center gap-2 font-display font-semibold text-ink z-10 [text-shadow:0_1px_12px_rgba(255,255,255,0.9)]">
+        <Compass
+          size={22}
+          className="text-violet drop-shadow-[0_1px_6px_rgba(255,255,255,0.9)]"
+        />
+        <span className="text-[1.05rem] tracking-[-0.01em]">TripSpot</span>
       </div>
 
       {/* Main Unified Interactive Layout Container */}
       <div className="relative z-10 w-full max-w-md flex flex-col justify-center items-center h-full max-h-[85vh] gap-y-4 md:gap-y-6">
         {step !== "fingerprint-offer" && (
           <div className="relative text-center w-full animate-fade-up px-4">
-            {/* Frosted text backing */}
             <div className="absolute inset-x-0 inset-y-[-0.75rem] -z-10 glass rounded-2xl opacity-90 backdrop-blur-md" />
 
-            {/* Redesigned Premium Catchy Hero Slogan */}
-            <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-ink leading-tight">
-              India,{" "}
-              <span className="bg-gradient-to-r from-violet via-blue to-emerald bg-clip-text text-transparent">
-                One Fare Board
-              </span>{" "}
-              Away.
-            </h1>
-            <p className="text-mist text-xs md:text-sm mt-2 max-w-xs mx-auto leading-relaxed font-medium">
-              Compare fares instantly. Rank how you travel.
+            <p className="text-mist-soft text-[11px] font-semibold tracking-[0.14em] uppercase mb-2">
+              India, one board of fares away
             </p>
+
+            <h1
+              className={`font-display text-[1.7rem] md:text-[2.1rem] font-semibold tracking-[-0.02em] text-ink leading-[1.15] min-h-[4.5rem] md:min-h-[3.6rem] flex items-center justify-center transition-all duration-500 ease-out ${
+                fading
+                  ? "opacity-0 -translate-y-1.5"
+                  : "opacity-100 translate-y-0"
+              }`}
+            >
+              {HEADLINES[headlineIndex]}
+            </h1>
+
+            <div className="flex items-center justify-center gap-1.5 mt-3">
+              {HEADLINES.map((_, i) => (
+                <span
+                  key={i}
+                  className={`h-1 rounded-full transition-all duration-500 ${
+                    i === headlineIndex ? "w-5 bg-ink" : "w-1 bg-ink/20"
+                  }`}
+                />
+              ))}
+            </div>
           </div>
         )}
 

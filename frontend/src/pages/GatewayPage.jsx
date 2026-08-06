@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import logo from "../assets/tour-guide.svg";
 import {
   Mail,
   Lock,
@@ -138,9 +139,10 @@ export default function GatewayPage() {
 
       {/* Brand mark — no box, just logo + wordmark with a drop-shadow for legibility over photos */}
       <div className="absolute top-6 left-6 md:top-8 md:left-8 flex items-center gap-2 font-display font-semibold text-ink z-10 [text-shadow:0_1px_12px_rgba(255,255,255,0.9)]">
-        <Compass
-          size={22}
-          className="text-violet drop-shadow-[0_1px_6px_rgba(255,255,255,0.9)]"
+        <img
+          src={logo}
+          alt="TripSpot"
+          className="w-6 h-6 drop-shadow-[0_1px_6px_rgba(255,255,255,0.9)]"
         />
         <span className="text-[1.05rem] tracking-[-0.01em]">TripSpot</span>
       </div>

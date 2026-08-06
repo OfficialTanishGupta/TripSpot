@@ -1,24 +1,55 @@
-import { NavLink } from 'react-router-dom';
-import { LayoutGrid, FolderKanban, SlidersHorizontal, Bell, LogOut, Compass } from 'lucide-react';
-import { useAuth } from '../context/AuthContext';
+import { NavLink } from "react-router-dom";
+import {
+  LayoutGrid,
+  FolderKanban,
+  SlidersHorizontal,
+  Bell,
+  LogOut,
+  Compass,
+} from "lucide-react";
+import { useAuth } from "../context/AuthContext";
 
 const NAV_ITEMS = [
-  { to: '/dashboard', label: 'Dashboard', icon: LayoutGrid, color: '#4F9DFF', bg: 'rgba(79,157,255,0.15)' },
-  { to: '/ledger', label: 'Bookings', icon: FolderKanban, color: '#34E0A1', bg: 'rgba(52,224,161,0.15)' },
-  { to: '/settings', label: 'Settings', icon: SlidersHorizontal, color: '#FFB84D', bg: 'rgba(255,184,77,0.15)' },
-  { to: '/support', label: 'Support', icon: Bell, color: '#FF6FA5', bg: 'rgba(255,111,165,0.15)' },
+  {
+    to: "/dashboard",
+    label: "Dashboard",
+    icon: LayoutGrid,
+    color: "#4F9DFF",
+    bg: "#EAF3FF",
+  },
+  {
+    to: "/ledger",
+    label: "Bookings",
+    icon: FolderKanban,
+    color: "#1FB980",
+    bg: "#E6F9F1",
+  },
+  {
+    to: "/settings",
+    label: "Settings",
+    icon: SlidersHorizontal,
+    color: "#FF9F1C",
+    bg: "#FFF3E0",
+  },
+  {
+    to: "/support",
+    label: "Support",
+    icon: Bell,
+    color: "#FF6FA5",
+    bg: "#FFEAF2",
+  },
 ];
 
 export default function Sidebar() {
   const { email, logout } = useAuth();
 
   return (
-    <aside className="w-60 shrink-0 h-screen sticky top-0 flex flex-col p-4 border-r border-line bg-surface/60 backdrop-blur-sm max-md:w-[76px] max-md:p-2.5">
-      <div className="flex items-center gap-2.5 px-2 pb-7 pt-1 font-display font-bold text-white">
-        <span className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet to-blue flex items-center justify-center">
+    <aside className="w-60 shrink-0 h-screen sticky top-0 flex flex-col p-4 border-r border-line bg-surface max-md:w-[76px] max-md:p-2.5">
+      <div className="flex items-center gap-2.5 px-2 pb-7 pt-1 font-display font-semibold text-ink">
+        <span className="w-8 h-8 rounded-lg bg-violet-soft flex items-center justify-center text-violet">
           <Compass size={18} />
         </span>
-        <span className="max-md:hidden">TripSpot</span>
+        <span className="max-md:hidden tracking-[-0.01em]">TripSpot</span>
       </div>
 
       <nav className="flex flex-col gap-1 flex-1">
@@ -28,7 +59,9 @@ export default function Sidebar() {
             to={to}
             className={({ isActive }) =>
               `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors max-md:justify-center ${
-                isActive ? 'text-white' : 'text-mist hover:text-white hover:bg-white/5'
+                isActive
+                  ? "text-ink"
+                  : "text-mist hover:text-ink hover:bg-canvas"
               }`
             }
             style={({ isActive }) => (isActive ? { background: bg } : {})}
@@ -45,10 +78,12 @@ export default function Sidebar() {
       </nav>
 
       <div className="border-t border-line pt-3 mt-2">
-        <div className="px-2 pb-2 text-[0.7rem] text-mist-soft font-mono truncate max-md:hidden">{email}</div>
+        <div className="px-2 pb-2 text-[0.7rem] text-mist-soft font-mono truncate max-md:hidden">
+          {email}
+        </div>
         <button
           onClick={logout}
-          className="w-full flex items-center gap-2.5 px-2.5 py-2.5 rounded-xl text-sm text-mist hover:text-white hover:bg-white/5 max-md:justify-center"
+          className="w-full flex items-center gap-2.5 px-2.5 py-2.5 rounded-xl text-sm text-mist hover:text-ink hover:bg-canvas max-md:justify-center"
         >
           <LogOut size={16} />
           <span className="max-md:hidden">Sign out</span>

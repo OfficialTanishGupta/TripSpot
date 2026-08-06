@@ -44,7 +44,6 @@ export default function DashboardPage() {
     e.preventDefault();
     setLoading(true);
     try {
-      // ✅ Fixed: Single API request containing all payload arguments
       const { data } = await api.post("/api/search", {
         ...form,
         passengers: party.adults + party.children,
@@ -71,7 +70,7 @@ export default function DashboardPage() {
   return (
     <div className="max-w-6xl mx-auto">
       <div className="mb-7">
-        <h1 className="text-2xl font-bold text-white">Command Dashboard</h1>
+        <h1 className="text-2xl font-bold text-ink">Command Dashboard</h1>
         <p className="text-mist text-sm mt-1.5">
           Search once, compare every mode of transport at once.
         </p>
@@ -80,7 +79,7 @@ export default function DashboardPage() {
       <div className="grid grid-cols-[1fr_280px] gap-4 mb-8 max-lg:grid-cols-1">
         <form
           onSubmit={search}
-          className="rounded-2xl border border-line bg-surface p-5 flex flex-col gap-3.5"
+          className="rounded-2xl border border-line bg-surface shadow-sm p-5 flex flex-col gap-3.5"
         >
           <ModeTabBar
             value={form.preferredMode}
@@ -105,7 +104,7 @@ export default function DashboardPage() {
                 })
               }
               title="Swap origin and destination"
-              className="w-9 h-9 rounded-full border border-line bg-ink-soft text-mist hover:text-white hover:border-blue flex items-center justify-center shrink-0"
+              className="w-9 h-9 rounded-full border border-line bg-canvas text-mist hover:text-ink hover:border-blue flex items-center justify-center shrink-0"
             >
               <ArrowLeftRight size={15} />
             </button>
@@ -139,8 +138,8 @@ export default function DashboardPage() {
                   onClick={() => setForm({ ...form, fareType: f })}
                   className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
                     form.fareType === f
-                      ? "bg-blue text-ink"
-                      : "bg-ink-soft text-mist hover:text-white"
+                      ? "bg-blue text-white"
+                      : "bg-canvas text-mist hover:text-ink"
                   }`}
                 >
                   {f}
@@ -170,16 +169,15 @@ export default function DashboardPage() {
       </div>
 
       <section className="mb-9">
-        <h3 className="text-white font-semibold text-sm mb-3.5">
-          {" "}
-          Popular routes{" "}
+        <h3 className="text-ink font-semibold text-sm mb-3.5">
+          Popular routes
         </h3>
         <div className="flex gap-3 overflow-x-auto pb-1">
           {POPULAR_ROUTES.map((r, i) => (
             <button
               key={i}
               onClick={() => applyRoute(r)}
-              className="relative shrink-0 w-56 h-36 rounded-2xl overflow-hidden group"
+              className="relative shrink-0 w-56 h-36 rounded-2xl overflow-hidden group shadow-sm"
             >
               <img
                 src={r.photo}
@@ -187,7 +185,6 @@ export default function DashboardPage() {
                 loading="lazy"
                 className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
               />
-              {/* ✅ Fixed: Tailwind v4 linear utility line */}
               <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/5 to-transparent" />
               <span
                 className="absolute top-2.5 left-2.5 text-[0.68rem] font-bold text-white px-2 py-1 rounded-full"
@@ -205,16 +202,13 @@ export default function DashboardPage() {
       </section>
 
       <section className="mb-9">
-        <h3 className="text-white font-semibold text-sm mb-3.5">
-          {" "}
-          Explore India{" "}
-        </h3>
+        <h3 className="text-ink font-semibold text-sm mb-3.5">Explore India</h3>
         <DestinationGallery destinations={DESTINATION_GALLERY} />
       </section>
 
       <section>
         <div className="flex items-center justify-between mb-3.5">
-          <h3 className="text-white font-semibold text-sm">Fare board</h3>
+          <h3 className="text-ink font-semibold text-sm">Fare board</h3>
           {isDemo && (
             <span className="text-xs font-semibold text-amber bg-amber-soft px-3 py-1 rounded-full">
               Sample data — connect the backend for live, AI-ranked fares

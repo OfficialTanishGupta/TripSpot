@@ -5,9 +5,9 @@ import {
   SlidersHorizontal,
   Bell,
   LogOut,
-  Compass,
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
+import logo from "../assets/tour-guide.svg";
 
 const NAV_ITEMS = [
   {
@@ -46,9 +46,7 @@ export default function Sidebar() {
   return (
     <aside className="w-60 shrink-0 h-screen sticky top-0 flex flex-col p-4 border-r border-line bg-surface max-md:w-[76px] max-md:p-2.5">
       <div className="flex items-center gap-2.5 px-2 pb-7 pt-1 font-display font-semibold text-ink">
-        <span className="w-8 h-8 rounded-lg bg-violet-soft flex items-center justify-center text-violet">
-          <Compass size={18} />
-        </span>
+        <img src={logo} alt="TripSpot" className="w-8 h-8 shrink-0" />
         <span className="max-md:hidden tracking-[-0.01em]">TripSpot</span>
       </div>
 

@@ -2,8 +2,8 @@ import { cn } from '../../lib/utils';
 
 const VARIANTS = {
   primary: 'bg-violet text-white hover:brightness-110 shadow-lg shadow-violet/25',
-  outline: 'border border-line text-mist hover:text-white hover:border-mist-soft bg-transparent',
-  ghost: 'bg-transparent text-mist hover:text-white hover:bg-white/5',
+  outline: 'border border-line text-mist hover:text-ink hover:border-mist-soft bg-transparent',
+  ghost: 'bg-transparent text-mist hover:text-ink hover:bg-black/[0.04]',
   accent: 'text-ink font-semibold hover:brightness-110 shadow-lg',
 };
 

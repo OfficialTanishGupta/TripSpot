@@ -1,14 +1,29 @@
-import { useState } from 'react';
-import { cn } from '../../lib/utils';
+import { useState } from "react";
+import { cn } from "../../lib/utils";
 
-export function FloatingInput({ label, type = 'text', value, onChange, required, icon: Icon, accentClass = 'peer-focus:text-violet', accentBorder = 'focus:border-violet', className, ...rest }) {
+export function FloatingInput({
+  label,
+  type = "text",
+  value,
+  onChange,
+  required,
+  icon: Icon,
+  accentClass = "peer-focus:text-violet",
+  accentBorder = "focus:border-violet",
+  className,
+  ...rest
+}) {
   const [focused, setFocused] = useState(false);
-  const floated = focused || (value !== undefined && value !== null && value !== '');
+  const floated =
+    focused || (value !== undefined && value !== null && value !== "");
 
   return (
-    <div className={cn('relative', className)}>
+    <div className={cn("relative", className)}>
       {Icon && (
-        <Icon size={17} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-mist-soft pointer-events-none" />
+        <Icon
+          size={17}
+          className="absolute left-3.5 top-1/2 -translate-y-1/2 text-mist-soft pointer-events-none"
+        />
       )}
       <input
         type={type}
@@ -19,19 +34,21 @@ export function FloatingInput({ label, type = 'text', value, onChange, required,
         required={required}
         placeholder=" "
         className={cn(
-          'peer w-full rounded-xl border border-line bg-ink-soft text-white text-sm outline-none transition-colors',
-          Icon ? 'pl-10 pr-3' : 'px-3.5',
-          floated ? 'pt-5 pb-2' : 'py-3.5',
-          accentBorder
+          "peer w-full rounded-xl border border-line bg-canvas text-ink text-sm outline-none transition-colors",
+          Icon ? "pl-10 pr-3" : "px-3.5",
+          floated ? "pt-5 pb-2" : "py-3.5",
+          accentBorder,
         )}
         {...rest}
       />
       <label
         className={cn(
-          'absolute pointer-events-none transition-all duration-150',
-          Icon ? 'left-10' : 'left-3.5',
-          floated ? 'top-2 text-[0.68rem] font-semibold' : 'top-1/2 -translate-y-1/2 text-sm',
-          floated ? accentClass : 'text-mist-soft'
+          "absolute pointer-events-none transition-all duration-150",
+          Icon ? "left-10" : "left-3.5",
+          floated
+            ? "top-2 text-[0.68rem] font-semibold"
+            : "top-1/2 -translate-y-1/2 text-sm",
+          floated ? accentClass : "text-mist-soft",
         )}
       >
         {label}

@@ -92,24 +92,24 @@ export default function SettingsPage() {
               icon={User}
               value={profile.fullName}
               onChange={update("fullName")}
-              accentClass="peer-focus:text-amber"
-              accentBorder="focus:border-amber"
+              accentClass="peer-focus:text-violet"
+              accentBorder="focus:border-violet"
             />
             <FloatingInput
               label="Phone number"
               icon={Phone}
               value={profile.phone}
               onChange={update("phone")}
-              accentClass="peer-focus:text-amber"
-              accentBorder="focus:border-amber"
+              accentClass="peer-focus:text-violet"
+              accentBorder="focus:border-violet"
             />
             <FloatingInput
               label="Home city"
               icon={MapPin}
               value={profile.homeCity}
               onChange={update("homeCity")}
-              accentClass="peer-focus:text-amber"
-              accentBorder="focus:border-amber"
+              accentClass="peer-focus:text-violet"
+              accentBorder="focus:border-violet"
             />
 
             <div>
@@ -122,7 +122,7 @@ export default function SettingsPage() {
                     type="button"
                     key={m}
                     onClick={() => setPreferredMode(m)}
-                    className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${preferredMode === m ? "bg-amber text-white" : "bg-canvas text-mist hover:text-ink"}`}
+                    className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${preferredMode === m ? "bg-violet text-white" : "bg-canvas text-mist hover:text-ink"}`}
                   >
                     {m}
                   </button>
@@ -140,7 +140,7 @@ export default function SettingsPage() {
                     type="button"
                     key={s}
                     onClick={() => setSeatPreference(s)}
-                    className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${seatPreference === s ? "bg-amber text-white" : "bg-canvas text-mist hover:text-ink"}`}
+                    className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${seatPreference === s ? "bg-violet text-white" : "bg-canvas text-mist hover:text-ink"}`}
                   >
                     {s}
                   </button>
@@ -148,11 +148,7 @@ export default function SettingsPage() {
               </div>
             </div>
 
-            <Button
-              type="submit"
-              style={{ "--tw-shadow-color": "transparent" }}
-              className="bg-amber text-white shadow-none hover:brightness-105"
-            >
+            <Button type="submit" className="w-full">
               {saved ? "Saved ✓" : "Save changes"}
             </Button>
           </form>

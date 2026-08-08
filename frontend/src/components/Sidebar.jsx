@@ -1,42 +1,35 @@
-import { NavLink } from "react-router-dom";
+import { NavLink } from 'react-router-dom';
 import {
-  LayoutGrid,
-  FolderKanban,
-  SlidersHorizontal,
-  Bell,
-  LogOut,
-} from "lucide-react";
-import { useAuth } from "../context/AuthContext";
-import logo from "../assets/tour-guide.svg";
+  LayoutGrid, Globe2, Sparkles, FolderKanban, Heart,
+  BellRing, Gift, SlidersHorizontal, Bell, LogOut,
+} from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
+import logo from '../assets/tour-guide.svg';
 
-const NAV_ITEMS = [
+const NAV_GROUPS = [
   {
-    to: "/dashboard",
-    label: "Dashboard",
-    icon: LayoutGrid,
-    color: "#4F9DFF",
-    bg: "#EAF3FF",
+    label: 'Plan',
+    items: [
+      { to: '/dashboard', label: 'Dashboard', icon: LayoutGrid, color: '#4F9DFF', bg: '#EAF3FF' },
+      { to: '/explore', label: 'Explore', icon: Globe2, color: '#1FB980', bg: '#E6F9F1' },
+      { to: '/insights', label: 'Trip Insights', icon: Sparkles, color: '#7C6FFF', bg: '#EEECFF' },
+    ],
   },
   {
-    to: "/ledger",
-    label: "Bookings",
-    icon: FolderKanban,
-    color: "#1FB980",
-    bg: "#E6F9F1",
+    label: 'Manage',
+    items: [
+      { to: '/ledger', label: 'Bookings', icon: FolderKanban, color: '#0D9488', bg: '#E6FFFA' },
+      { to: '/wishlist', label: 'Saved', icon: Heart, color: '#FB7185', bg: '#FFE4E9' },
+      { to: '/alerts', label: 'Price Alerts', icon: BellRing, color: '#FF9F1C', bg: '#FFF3E0' },
+      { to: '/offers', label: 'Offers & Rewards', icon: Gift, color: '#C026D3', bg: '#FBEAFE' },
+    ],
   },
   {
-    to: "/settings",
-    label: "Settings",
-    icon: SlidersHorizontal,
-    color: "#FF9F1C",
-    bg: "#FFF3E0",
-  },
-  {
-    to: "/support",
-    label: "Support",
-    icon: Bell,
-    color: "#FF6FA5",
-    bg: "#FFEAF2",
+    label: 'Account',
+    items: [
+      { to: '/settings', label: 'Settings', icon: SlidersHorizontal, color: '#64748B', bg: '#F1F5F9' },
+      { to: '/support', label: 'Support', icon: Bell, color: '#FF6FA5', bg: '#FFEAF2' },
+    ],
   },
 ];
 
@@ -44,41 +37,46 @@ export default function Sidebar() {
   const { email, logout } = useAuth();
 
   return (
-    <aside className="w-60 shrink-0 h-screen sticky top-0 flex flex-col p-4 border-r border-line bg-surface max-md:w-[76px] max-md:p-2.5">
-      <div className="flex items-center gap-2.5 px-2 pb-7 pt-1 font-display font-semibold text-ink">
+    <aside className="w-64 shrink-0 h-screen sticky top-0 flex flex-col p-4 border-r border-line bg-surface overflow-y-auto max-md:w-[76px] max-md:p-2.5">
+      <div className="flex items-center gap-2.5 px-2 pb-6 pt-1 font-display font-semibold text-ink">
         <img src={logo} alt="TripSpot" className="w-8 h-8 shrink-0" />
         <span className="max-md:hidden tracking-[-0.01em]">TripSpot</span>
       </div>
 
-      <nav className="flex flex-col gap-1 flex-1">
-        {NAV_ITEMS.map(({ to, label, icon: Icon, color, bg }) => (
-          <NavLink
-            key={to}
-            to={to}
-            className={({ isActive }) =>
-              `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors max-md:justify-center ${
-                isActive
-                  ? "text-ink"
-                  : "text-mist hover:text-ink hover:bg-canvas"
-              }`
-            }
-            style={({ isActive }) => (isActive ? { background: bg } : {})}
-          >
-            <span
-              className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0"
-              style={{ color }}
-            >
-              <Icon size={17} />
-            </span>
-            <span className="max-md:hidden">{label}</span>
-          </NavLink>
+      <nav className="flex flex-col gap-5 flex-1">
+        {NAV_GROUPS.map((group) => (
+          <div key={group.label}>
+            <div className="px-3 mb-1.5 text-[0.65rem] font-semibold uppercase tracking-wider text-mist-soft max-md:hidden">
+              {group.label}
+            </div>
+            <div className="flex flex-col gap-1">
+              {group.items.map(({ to, label, icon: Icon, color, bg }) => (
+                <NavLink
+                  key={to}
+                  to={to}
+                  className={({ isActive }) =>
+                    `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors max-md:justify-center ${
+                      isActive ? 'text-ink' : 'text-mist hover:text-ink hover:bg-canvas'
+                    }`
+                  }
+                  style={({ isActive }) => (isActive ? { background: bg } : {})}
+                >
+                  <span
+                    className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0"
+                    style={{ color }}
+                  >
+                    <Icon size={17} />
+                  </span>
+                  <span className="max-md:hidden">{label}</span>
+                </NavLink>
+              ))}
+            </div>
+          </div>
         ))}
       </nav>
 
       <div className="border-t border-line pt-3 mt-2">
-        <div className="px-2 pb-2 text-[0.7rem] text-mist-soft font-mono truncate max-md:hidden">
-          {email}
-        </div>
+        <div className="px-2 pb-2 text-[0.7rem] text-mist-soft font-mono truncate max-md:hidden">{email}</div>
         <button
           onClick={logout}
           className="w-full flex items-center gap-2.5 px-2.5 py-2.5 rounded-xl text-sm text-mist hover:text-ink hover:bg-canvas max-md:justify-center"

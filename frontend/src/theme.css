@@ -10,14 +10,14 @@
   --font-mono: "IBM Plex Mono", "Courier New", monospace;
 
   /* Light, minimalistic base */
-  --color-ink: #12172a; /* primary text (was dark bg, now dark text) */
-  --color-ink-soft: #2a3050; /* secondary dark text / dark surfaces when needed */
-  --color-canvas: #f6f7fb; /* page background */
-  --color-surface: #ffffff; /* solid card surface */
+  --color-ink: #12172a;
+  --color-ink-soft: #2a3050;
+  --color-canvas: #f6f7fb;
+  --color-surface: #ffffff;
   --color-surface-raised: #ffffff;
-  --color-line: #e5e8f2; /* borders */
-  --color-mist: #6b7290; /* muted body text */
-  --color-mist-soft: #9aa1be; /* placeholder / faint text */
+  --color-line: #e5e8f2;
+  --color-mist: #6b7290;
+  --color-mist-soft: #9aa1be;
 
   --color-violet: #7c6fff;
   --color-violet-soft: #eeecff;
@@ -36,6 +36,12 @@
   --animate-fade-up: fadeUp 600ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
   --animate-shimmer: shimmer 2.2s linear infinite;
   --animate-float: float 6s ease-in-out infinite;
+
+  --animate-drift-1: driftLTR 32s linear infinite;
+  --animate-drift-2: driftRTL 40s linear infinite;
+  --animate-drift-3: driftLTR 24s linear infinite;
+  --animate-drift-4: driftRTL 46s linear infinite;
+  --animate-bob: bob 4s ease-in-out infinite;
 
   @keyframes blob {
     0%,
@@ -74,6 +80,31 @@
     }
     50% {
       transform: translateY(-8px);
+    }
+  }
+  @keyframes driftLTR {
+    from {
+      transform: translateX(-10vw);
+    }
+    to {
+      transform: translateX(110vw);
+    }
+  }
+  @keyframes driftRTL {
+    from {
+      transform: translateX(110vw) scaleX(-1);
+    }
+    to {
+      transform: translateX(-10vw) scaleX(-1);
+    }
+  }
+  @keyframes bob {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
     }
   }
 }

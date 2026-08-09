@@ -1,5 +1,4 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-import { Sparkles, Heart, Gift } from "lucide-react";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import AppLayout from "./layouts/AppLayout";
 import GatewayPage from "./pages/GatewayPage";
@@ -10,6 +9,9 @@ import SupportPage from "./pages/SupportPage";
 import ComingSoonPage from "./pages/ComingSoonPage";
 import ExplorePage from "./pages/ExplorePage";
 import PriceAlertsPage from "./pages/PriceAlertsPage";
+import TripInsightsPage from "./pages/TripInsightsPage";
+import WishlistPage from "./pages/WishlistPage";
+import OffersPage from "./pages/OffersPage";
 import "./theme.css";
 
 function RequireAuth({ children }) {
@@ -77,13 +79,7 @@ function AppRoutes() {
         path="/insights"
         element={
           <RequireAuth>
-            <ComingSoonPage
-              icon={Sparkles}
-              title="Trip Insights"
-              description="A deeper look at your travel persona, spending patterns, and personalized recommendations."
-              accentColor="#7C6FFF"
-              accentBg="#EEECFF"
-            />
+            <TripInsightsPage />
           </RequireAuth>
         }
       />
@@ -91,13 +87,7 @@ function AppRoutes() {
         path="/wishlist"
         element={
           <RequireAuth>
-            <ComingSoonPage
-              icon={Heart}
-              title="Saved"
-              description="Bookmark routes and fares you're eyeing, so you can jump back in without searching again."
-              accentColor="#FB7185"
-              accentBg="#FFE4E9"
-            />
+            <WishlistPage />
           </RequireAuth>
         }
       />
@@ -113,13 +103,7 @@ function AppRoutes() {
         path="/offers"
         element={
           <RequireAuth>
-            <ComingSoonPage
-              icon={Gift}
-              title="Offers & Rewards"
-              description="Deals, cashback, and referral rewards for TripSpot travelers — coming soon."
-              accentColor="#C026D3"
-              accentBg="#FBEAFE"
-            />
+            <OffersPage />
           </RequireAuth>
         }
       />

@@ -207,14 +207,6 @@ export default function DashboardPage() {
       </section>
 
       <section>
-        <div className="flex items-center justify-between mb-3.5">
-          <h3 className="text-ink font-semibold text-sm">Fare board</h3>
-          {isDemo && (
-            <span className="text-xs font-semibold text-amber bg-amber-soft px-3 py-1 rounded-full">
-              Sample data — connect the backend for live, AI-ranked fares
-            </span>
-          )}
-        </div>
         <ResultsBoard
           options={results}
           onBook={handleBook}

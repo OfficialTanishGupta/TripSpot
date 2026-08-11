@@ -9,6 +9,7 @@ then serves two endpoints the Spring Boot backend calls:
 
 Run locally: uvicorn app.main:app --reload --port 8000
 """
+
 import sys
 from pathlib import Path
 
@@ -19,9 +20,19 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 sys.path.append(str(Path(__file__).parent))
-from features import compute_user_features, apply_current_party_override, FEATURE_COLUMNS
+from features import (
+    compute_user_features,
+    apply_current_party_override,
+    FEATURE_COLUMNS,
+)
 from insight import generate_insight
-from schemas import PersonaRequest, PersonaResponse, RerankRequest, RerankResponse, RankedOption
+from schemas import (
+    PersonaRequest,
+    PersonaResponse,
+    RerankRequest,
+    RerankResponse,
+    RankedOption,
+)
 
 BASE = Path(__file__).parent.parent
 MODELS_DIR = BASE / "models"
@@ -30,7 +41,9 @@ app = FastAPI(title="TripSpot ML Service", version="0.1.0")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # this service is only ever called server-to-server by the backend
+    allow_origins=[
+        "*"
+    ],  # this service is only ever called server-to-server by the backend
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -41,6 +54,7 @@ _state = {}
 @app.on_event("startup")
 def load_models():
     import json
+
     _state["kmeans"] = joblib.load(MODELS_DIR / "kmeans.joblib")
     _state["scaler"] = joblib.load(MODELS_DIR / "scaler.joblib")
     with open(MODELS_DIR / "persona_labels.json") as f:
@@ -91,8 +105,15 @@ def persona(req: PersonaRequest):
 def rerank(req: RerankRequest):
     trips = [t.model_dump() for t in req.trips]
     base_features = compute_user_features(trips)
+
+    # 1. Safely dump the currentParty model if it exists
     current_party = req.currentParty.model_dump() if req.currentParty else None
-    user_features = apply_current_party_override(base_features, current_party)
+
+    # 2. SAFE CHECK: Only run override if current_party exists and has a non-null advanceDays field
+    if current_party and current_party.get("advanceDays") is not None:
+        user_features = apply_current_party_override(base_features, current_party)
+    else:
+        user_features = base_features.copy()  # Safe fallback structure
 
     persona_label, _ = _classify_persona(base_features)
 
@@ -100,7 +121,6 @@ def rerank(req: RerankRequest):
         return RerankResponse(persona=persona_label, rankedOptionIds=[], scored=[])
 
     cheapest = min(o.price for o in req.options)
-
     rows = []
     for opt in req.options:
         row = dict(user_features)
@@ -119,12 +139,27 @@ def rerank(req: RerankRequest):
     scored = []
     for opt, score in zip(req.options, scores):
         mode_share_key = f"mode_share_{opt.mode.lower()}"
-        reason = "matches how you usually travel" if user_features.get(mode_share_key, 0) > 0.3 else \
-                 "best price for this route" if opt.price == cheapest else \
-                 "highly rated by other travelers" if opt.rating >= 4.5 else "solid overall option"
-        scored.append(RankedOption(id=opt.id, personalizedScore=round(float(score), 4), reason=reason))
+        reason = (
+            "matches how you usually travel"
+            if user_features.get(mode_share_key, 0) > 0.3
+            else (
+                "best price for this route"
+                if opt.price == cheapest
+                else (
+                    "highly rated by other travelers"
+                    if opt.rating >= 4.5
+                    else "solid overall option"
+                )
+            )
+        )
+        scored.append(
+            RankedOption(
+                id=opt.id, personalizedScore=round(float(score), 4), reason=reason
+            )
+        )
 
     scored.sort(key=lambda s: -s.personalizedScore)
     ranked_ids = [s.id for s in scored]
-
-    return RerankResponse(persona=persona_label, rankedOptionIds=ranked_ids, scored=scored)
+    return RerankResponse(
+        persona=persona_label, rankedOptionIds=ranked_ids, scored=scored
+    )

@@ -27,12 +27,12 @@ TripSpot pulls fare and route data from multiple transport providers and present
 
 ## Tech Stack
 
-| Layer | Technology |
-|---|---|
-| Frontend | React, Vite, Tailwind CSS v4 |
-| Backend | Spring Boot 3, Java 21, Spring Security (JWT), JPA/H2 |
-| ML Service | Python, FastAPI, scikit-learn (KMeans), XGBoost |
-| Auth | JWT (stateless), WebAuthn support |
+| Layer      | Technology                                            |
+| ---------- | ----------------------------------------------------- |
+| Frontend   | React, Vite, Tailwind CSS v4                          |
+| Backend    | Spring Boot 3, Java 21, Spring Security (JWT), JPA/H2 |
+| ML Service | Python, FastAPI, scikit-learn (KMeans), XGBoost       |
+| Auth       | JWT (stateless), WebAuthn support                     |
 
 ## Features
 
@@ -89,6 +89,7 @@ TripSpot/
 cd backend
 ./mvnw spring-boot:run
 ```
+
 Runs on `http://localhost:8080`.
 
 ### 2. ML Service (FastAPI)
@@ -100,6 +101,7 @@ python -m venv venv
 pip install -r requirements.txt
 python -m uvicorn app.main:app --reload --port 8000
 ```
+
 Runs on `http://localhost:8000`.
 
 ### 3. Frontend (React + Vite)
@@ -109,23 +111,25 @@ cd frontend
 npm install
 npm run dev
 ```
+
 Runs on `http://localhost:5173`.
 
 ### Environment Variables
 
 Copy `.env.example` in `frontend/` to `.env` and set:
+
 ```
 VITE_API_BASE_URL=http://localhost:8080
 ```
 
 ## API Overview
 
-| Endpoint | Auth | Description |
-|---|---|---|
-| `POST /api/auth/**` | Public | Login, register, WebAuthn |
-| `GET /api/search/**` | Public | Transport search/comparison |
-| `/actuator/health` | Public | Health check |
-| All other `/api/**` | JWT required | User, booking, personalization data |
+| Endpoint             | Auth         | Description                         |
+| -------------------- | ------------ | ----------------------------------- |
+| `POST /api/auth/**`  | Public       | Login, register, WebAuthn           |
+| `GET /api/search/**` | Public       | Transport search/comparison         |
+| `/actuator/health`   | Public       | Health check                        |
+| All other `/api/**`  | JWT required | User, booking, personalization data |
 
 ## Known Issues / Roadmap
 

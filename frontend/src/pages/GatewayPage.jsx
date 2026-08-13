@@ -30,6 +30,7 @@ export default function GatewayPage() {
   const [step, setStep] = useState("form");
   const [form, setForm] = useState({ fullName: "", email: "", password: "" });
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const cardRef = useRef(null);
   const { login } = useAuth();
@@ -60,6 +61,7 @@ export default function GatewayPage() {
   const submit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    setError("");
     try {
       const endpoint =
         mode === "signup" ? "/api/auth/signup" : "/api/auth/login";
@@ -79,8 +81,11 @@ export default function GatewayPage() {
         finishAndEnter(data.token, form.email);
       }
     } catch (err) {
-      if (mode === "signup") setStep("fingerprint-offer");
-      else finishAndEnter(null, form.email);
+      if (mode === "signup") {
+        setStep("fingerprint-offer");
+      } else {
+        setError(err.response?.data?.error || "Invalid email or password");
+      }
     } finally {
       setLoading(false);
     }
@@ -243,7 +248,10 @@ export default function GatewayPage() {
                 {["signup", "login"].map((m) => (
                   <button
                     key={m}
-                    onClick={() => setMode(m)}
+                    onClick={() => {
+                      setMode(m);
+                      setError("");
+                    }}
                     className={`relative z-10 flex-1 rounded-lg text-xs font-bold transition-colors duration-200 ${mode === m ? "text-ink" : "text-mist-soft"}`}
                   >
                     {m === "signup" ? "Create account" : "Sign in"}
@@ -302,6 +310,10 @@ export default function GatewayPage() {
                   <ArrowRight size={14} />
                 </Button>
               </form>
+
+              {error && (
+                <p className="text-red-500 text-xs mt-2 text-center">{error}</p>
+              )}
 
               <p className="text-center text-mist text-xs mt-4">
                 {mode === "signup"

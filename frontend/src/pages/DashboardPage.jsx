@@ -7,6 +7,7 @@ import { ModeTabBar } from "../components/ModeTabBar";
 import PersonaCard from "../components/PersonaCard";
 import DestinationGallery from "../components/DestinationGallery";
 import ResultsBoard from "../components/ResultsBoard";
+import { useNavigate } from "react-router-dom";
 import api from "../api/client";
 import {
   POPULAR_ROUTES,
@@ -63,8 +64,21 @@ export default function DashboardPage() {
   const applyRoute = (route) =>
     setForm({ ...form, origin: route.from, destination: route.to });
 
-  const handleBook = () => {
-    /* wired once backend session is live */
+  const navigate = useNavigate();
+
+  const handleBook = (option) => {
+    const cheapest = results.reduce(
+      (min, o) => (o.price < min ? o.price : min),
+      results[0]?.price ?? option.price,
+    );
+    navigate("/booking", {
+      state: {
+        option,
+        party,
+        travelDate: form.travelDate,
+        cheapestAvailablePrice: cheapest,
+      },
+    });
   };
 
   return (
@@ -169,6 +183,14 @@ export default function DashboardPage() {
       </div>
 
       <section className="mb-9">
+        <ResultsBoard
+          options={results}
+          onBook={handleBook}
+          personalized={isDemo}
+        />
+      </section>
+
+      <section className="mb-9">
         <h3 className="text-ink font-semibold text-sm mb-3.5">
           Popular routes
         </h3>
@@ -204,14 +226,6 @@ export default function DashboardPage() {
       <section className="mb-9">
         <h3 className="text-ink font-semibold text-sm mb-3.5">Explore India</h3>
         <DestinationGallery destinations={DESTINATION_GALLERY} />
-      </section>
-
-      <section>
-        <ResultsBoard
-          options={results}
-          onBook={handleBook}
-          personalized={isDemo}
-        />
       </section>
     </div>
   );

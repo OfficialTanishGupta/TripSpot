@@ -1,4 +1,4 @@
-import { Sparkles } from 'lucide-react';
+import { Sparkles } from "lucide-react";
 
 export default function PersonaCard({ persona, confidence, insight }) {
   return (
@@ -8,10 +8,14 @@ export default function PersonaCard({ persona, confidence, insight }) {
       </div>
       <div>
         <div className="flex items-center gap-2 mb-1">
-          <span className="text-[0.65rem] font-bold tracking-wide text-violet uppercase">AI Traveler Insight</span>
-          <span className="text-[0.65rem] text-mist-soft font-mono">{Math.round(confidence * 100)}% confidence</span>
+          <span className="text-[0.65rem] font-bold tracking-wide text-violet uppercase">
+            AI Traveler Insight
+          </span>
+          <span className="text-[0.65rem] text-mist-soft font-mono">
+            {Math.round(confidence * 100)}% confidence
+          </span>
         </div>
-        <h4 className="text-white font-semibold text-sm mb-1">{persona}</h4>
+        <h4 className="text-ink font-semibold text-sm mb-1">{persona}</h4>
         <p className="text-mist text-sm leading-relaxed">{insight}</p>
       </div>
     </div>

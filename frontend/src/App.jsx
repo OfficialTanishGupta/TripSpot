@@ -12,6 +12,7 @@ import PriceAlertsPage from "./pages/PriceAlertsPage";
 import TripInsightsPage from "./pages/TripInsightsPage";
 import WishlistPage from "./pages/WishlistPage";
 import OffersPage from "./pages/OffersPage";
+import BookingPage from "./pages/BookingPage";
 import "./theme.css";
 
 function RequireAuth({ children }) {
@@ -104,6 +105,14 @@ function AppRoutes() {
         element={
           <RequireAuth>
             <OffersPage />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/booking"
+        element={
+          <RequireAuth>
+            <BookingPage />
           </RequireAuth>
         }
       />

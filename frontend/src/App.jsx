@@ -13,6 +13,7 @@ import TripInsightsPage from "./pages/TripInsightsPage";
 import WishlistPage from "./pages/WishlistPage";
 import OffersPage from "./pages/OffersPage";
 import BookingPage from "./pages/BookingPage";
+import PaymentPage from "./pages/PaymentPage";
 import "./theme.css";
 
 function RequireAuth({ children }) {
@@ -113,6 +114,14 @@ function AppRoutes() {
         element={
           <RequireAuth>
             <BookingPage />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/payment"
+        element={
+          <RequireAuth>
+            <PaymentPage />
           </RequireAuth>
         }
       />

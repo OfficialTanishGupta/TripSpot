@@ -1,5 +1,14 @@
 import { useState, useMemo, useEffect } from "react";
-import { Train, Car, Bus, Plane, XCircle, CheckCircle2 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import {
+  Train,
+  Car,
+  Bus,
+  Plane,
+  XCircle,
+  CheckCircle2,
+  Clock,
+} from "lucide-react";
 import api from "../api/client";
 import { SAMPLE_BOOKINGS } from "../data/sampleData";
 
@@ -10,12 +19,19 @@ const MODE_COLOR = {
   BUS: "#FF6FA5",
   FLIGHT: "#4F9DFF",
 };
-const FILTERS = ["ALL", "CONFIRMED", "CANCELLED"];
+const FILTERS = ["ALL", "CONFIRMED", "PENDING", "CANCELLED"];
+
+const STATUS_STYLE = {
+  CONFIRMED: { icon: CheckCircle2, cls: "text-emerald bg-emerald-soft" },
+  PENDING: { icon: Clock, cls: "text-amber bg-amber-soft" },
+  CANCELLED: { icon: XCircle, cls: "text-mist-soft bg-canvas" },
+};
 
 export default function LedgerPage() {
   const [bookings, setBookings] = useState(SAMPLE_BOOKINGS);
   const [filter, setFilter] = useState("ALL");
   const [isDemo, setIsDemo] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     api
@@ -45,6 +61,26 @@ export default function LedgerPage() {
     } catch (e) {
       /* demo mode */
     }
+  };
+
+  const retryPayment = (b) => {
+    navigate("/payment", {
+      state: {
+        option: {
+          mode: b.mode,
+          providerName: b.providerName,
+          origin: b.origin,
+          destination: b.destination,
+          departureTime: b.departureTime,
+          arrivalTime: "",
+          durationLabel: "",
+          price: b.price,
+        },
+        party: { adults: b.adults ?? 1, children: b.children ?? 0 },
+        travelDate: "",
+        cheapestAvailablePrice: b.cheapestAvailablePrice,
+      },
+    });
   };
 
   return (
@@ -87,6 +123,8 @@ export default function LedgerPage() {
         <div className="flex flex-col gap-2.5">
           {filtered.map((b) => {
             const Icon = MODE_ICON[b.mode] || Car;
+            const statusMeta = STATUS_STYLE[b.status] || STATUS_STYLE.CANCELLED;
+            const StatusIcon = statusMeta.icon;
             return (
               <div
                 key={b.id}
@@ -111,17 +149,9 @@ export default function LedgerPage() {
                   ₹{b.price.toLocaleString("en-IN")}
                 </div>
                 <div
-                  className={`flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full whitespace-nowrap ${
-                    b.status === "CONFIRMED"
-                      ? "text-emerald bg-emerald-soft"
-                      : "text-mist-soft bg-canvas"
-                  }`}
+                  className={`flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full whitespace-nowrap ${statusMeta.cls}`}
                 >
-                  {b.status === "CONFIRMED" ? (
-                    <CheckCircle2 size={13} />
-                  ) : (
-                    <XCircle size={13} />
-                  )}
+                  <StatusIcon size={13} />
                   {b.status}
                 </div>
                 {b.status === "CONFIRMED" && (
@@ -130,6 +160,14 @@ export default function LedgerPage() {
                     className="text-xs text-mist border border-line px-3 py-1.5 rounded-lg hover:border-pink hover:text-pink"
                   >
                     Cancel
+                  </button>
+                )}
+                {b.status === "PENDING" && (
+                  <button
+                    onClick={() => retryPayment(b)}
+                    className="text-xs text-blue border border-blue px-3 py-1.5 rounded-lg hover:bg-blue hover:text-ink"
+                  >
+                    Retry payment
                   </button>
                 )}
               </div>

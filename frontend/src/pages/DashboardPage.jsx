@@ -8,6 +8,7 @@ import PersonaCard from "../components/PersonaCard";
 import DestinationGallery from "../components/DestinationGallery";
 import ResultsBoard from "../components/ResultsBoard";
 import { useNavigate } from "react-router-dom";
+import { CityAutocomplete } from "../components/CityAutocomplete";
 import api from "../api/client";
 import {
   POPULAR_ROUTES,
@@ -90,7 +91,7 @@ export default function DashboardPage() {
         </p>
       </div>
 
-      <div className="grid grid-cols-[1fr_280px] gap-4 mb-8 max-lg:grid-cols-1">
+      <div className="mb-8">
         <form
           onSubmit={search}
           className="rounded-2xl border border-line bg-surface shadow-sm p-5 flex flex-col gap-3.5"
@@ -101,7 +102,7 @@ export default function DashboardPage() {
           />
 
           <div className="grid grid-cols-[1fr_auto_1fr] gap-3 items-center">
-            <FloatingInput
+            <CityAutocomplete
               label="Leaving from"
               icon={MapPin}
               value={form.origin}
@@ -122,7 +123,7 @@ export default function DashboardPage() {
             >
               <ArrowLeftRight size={15} />
             </button>
-            <FloatingInput
+            <CityAutocomplete
               label="Going to"
               icon={MapPin}
               value={form.destination}
@@ -131,14 +132,21 @@ export default function DashboardPage() {
             />
           </div>
 
-          <FloatingInput
-            label="Travel date"
-            type="date"
-            icon={Calendar}
-            value={form.travelDate}
-            onChange={update("travelDate")}
-            required
-          />
+          <div className="grid grid-cols-2 gap-3">
+            <FloatingInput
+              label="Travel date"
+              type="date"
+              icon={Calendar}
+              value={form.travelDate}
+              onChange={update("travelDate")}
+              required
+            />
+            <PartyPicker
+              adults={party.adults}
+              children={party.children}
+              onChange={setParty}
+            />
+          </div>
 
           <div>
             <div className="flex items-center gap-1.5 text-[0.7rem] text-mist-soft uppercase tracking-wide mb-2">
@@ -166,12 +174,6 @@ export default function DashboardPage() {
             {loading ? "Checking fares…" : "Compare fares"}
           </Button>
         </form>
-
-        <PartyPicker
-          adults={party.adults}
-          children={party.children}
-          onChange={setParty}
-        />
       </div>
 
       <div className="mb-8">

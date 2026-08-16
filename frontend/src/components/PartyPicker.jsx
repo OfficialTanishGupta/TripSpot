@@ -1,47 +1,44 @@
-import { Minus, Plus, User, Users } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
+import { Minus, Plus, Users, ChevronDown } from "lucide-react";
 
 export function PartyPicker({ adults, children, onChange }) {
-  const isSolo = adults === 1 && children === 0;
+  const [open, setOpen] = useState(false);
+  const wrapRef = useRef(null);
 
-  const setSolo = () => onChange({ adults: 1, children: 0 });
-  const setGroup = () => {
-    if (isSolo) onChange({ adults: 2, children: 0 });
-  };
+  useEffect(() => {
+    const onClickOutside = (e) => {
+      if (wrapRef.current && !wrapRef.current.contains(e.target))
+        setOpen(false);
+    };
+    document.addEventListener("mousedown", onClickOutside);
+    return () => document.removeEventListener("mousedown", onClickOutside);
+  }, []);
+
   const step = (field, delta) => {
     const next = { adults, children };
     next[field] = Math.max(field === "adults" ? 1 : 0, next[field] + delta);
     onChange(next);
   };
 
-  return (
-    <div className="rounded-2xl border border-line bg-surface p-3.5 shadow-sm">
-      <div className="flex gap-1.5 mb-3">
-        <button
-          type="button"
-          onClick={setSolo}
-          className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg text-xs font-semibold transition-colors ${
-            isSolo
-              ? "bg-violet text-white"
-              : "text-mist-soft hover:text-ink hover:bg-canvas"
-          }`}
-        >
-          <User size={14} /> Solo
-        </button>
-        <button
-          type="button"
-          onClick={setGroup}
-          className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg text-xs font-semibold transition-colors ${
-            !isSolo
-              ? "bg-violet text-white"
-              : "text-mist-soft hover:text-ink hover:bg-canvas"
-          }`}
-        >
-          <Users size={14} /> Group
-        </button>
-      </div>
+  const total = adults + children;
+  const label = `${total} traveler${total > 1 ? "s" : ""}`;
 
-      {!isSolo && (
-        <div className="flex flex-col gap-2.5">
+  return (
+    <div ref={wrapRef} className="relative">
+      <button
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        className="w-full h-[52px] flex items-center justify-between gap-2 rounded-xl border border-line bg-canvas px-3.5 text-sm text-ink hover:border-mist-soft transition-colors"
+      >
+        <span className="flex items-center gap-2">
+          <Users size={16} className="text-mist-soft" />
+          {label}
+        </span>
+        <ChevronDown size={15} className="text-mist-soft" />
+      </button>
+
+      {open && (
+        <div className="absolute z-20 top-full left-0 right-0 mt-1.5 rounded-xl border border-line bg-surface shadow-lg p-3.5 flex flex-col gap-3">
           <Stepper
             label="Adults"
             value={adults}

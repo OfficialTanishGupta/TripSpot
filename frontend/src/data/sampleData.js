@@ -1,8 +1,3 @@
-// Photos are from Picsum (a free, no-key placeholder photo service) seeded by
-// destination name for visual consistency between reloads. They're real
-// photographs, but not verified pictures of these exact places - swap in a
-// Pexels API key (see README) for true destination-specific photography.
-
 import img1 from "../assets/image1.jpg";
 import img2 from "../assets/image2.jpg";
 import img3 from "../assets/image3.jpg";
@@ -15,6 +10,14 @@ import img9 from "../assets/image9.jpg";
 import img10 from "../assets/image10.jpg";
 import img11 from "../assets/image11.jpg";
 
+// Destination-specific images
+import tajMahal from "../assets/destinations/taj-mahal.jpg";
+import keralaBackwaters from "../assets/destinations/kerala-backwaters.jpg";
+import hawaMahal from "../assets/destinations/hawa-mahal.jpg";
+import goaBeach from "../assets/destinations/goa-beach.jpg";
+import ladakh from "../assets/destinations/ladakh.jpg";
+import varanasiGhats from "../assets/destinations/varanasi-ghats.jpg";
+
 const photo = (seed, w = 800, h = 600) =>
   `https://picsum.photos/seed/${seed}/${w}/${h}`;
 
@@ -26,10 +29,10 @@ export const HERO_PHOTOS = [
 ];
 
 export const MARQUEE_COLUMNS = [
-  [img8, img2, img7, img1, img10, img3, img1, img7, img11], // Column 1
-  [img10, img1, img10, img6, img7, img9, img5, img2, img9], // Column 2
-  [img5, img4, img11, img8, img2, img11, img6, img3, img8], // Column 3
-  [img9, img6, img3, img9, img5, img8, img4, img10, img6], // Column 4
+  [img8, img2, img7, img1, img10, img3, img1, img7, img11],
+  [img10, img1, img10, img6, img7, img9, img5, img2, img9],
+  [img5, img4, img11, img8, img2, img11, img6, img3, img8],
+  [img9, img6, img3, img9, img5, img8, img4, img10, img6],
 ];
 
 export const POPULAR_ROUTES = [
@@ -81,24 +84,32 @@ export const DESTINATION_GALLERY = [
   {
     name: "Taj Mahal, Agra",
     tag: "Heritage",
-    photo: photo("agra-taj", 700, 500),
+    photo: tajMahal,
   },
   {
     name: "Kerala Backwaters",
     tag: "Nature",
-    photo: photo("kerala-backwaters-2", 700, 500),
+    photo: keralaBackwaters,
   },
   {
     name: "Jaipur, Rajasthan",
     tag: "Culture",
-    photo: photo("jaipur-2", 700, 500),
+    photo: hawaMahal,
   },
-  { name: "Goa Beaches", tag: "Coast", photo: photo("goa-beach-2", 700, 500) },
-  { name: "Ladakh", tag: "Mountains", photo: photo("ladakh-2", 700, 500) },
+  {
+    name: "Goa Beaches",
+    tag: "Coast",
+    photo: goaBeach,
+  },
+  {
+    name: "Ladakh",
+    tag: "Mountains",
+    photo: ladakh,
+  },
   {
     name: "Varanasi Ghats",
     tag: "Spiritual",
-    photo: photo("varanasi-2", 700, 500),
+    photo: varanasiGhats,
   },
 ];
 
@@ -243,15 +254,15 @@ export const FAQS = [
   },
   {
     q: "Is the fingerprint login required?",
-    a: "No — it\u2019s entirely optional. Email and password always work. You can turn fingerprint sign-in on or off anytime from Settings.",
+    a: "No — it’s entirely optional. Email and password always work. You can turn fingerprint sign-in on or off anytime from Settings.",
   },
   {
     q: "Which devices support fingerprint sign-in?",
-    a: "Any device with a built-in fingerprint reader, Face ID, or Windows Hello — it uses your device\u2019s own biometric hardware.",
+    a: "Any device with a built-in fingerprint reader, Face ID, or Windows Hello — it uses your device’s own biometric hardware.",
   },
   {
     q: "Can I cancel a booking?",
-    a: "Yes, from the Bookings page. Refund timelines depend on the operator\u2019s own cancellation policy.",
+    a: "Yes, from the Bookings page. Refund timelines depend on the operator’s own cancellation policy.",
   },
 ];
 

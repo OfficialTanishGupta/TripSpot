@@ -18,6 +18,13 @@ import goaBeach from "../assets/destinations/goa-beach.jpg";
 import ladakh from "../assets/destinations/ladakh.jpg";
 import varanasiGhats from "../assets/destinations/varanasi-ghats.jpg";
 
+import lucknowRoute from "../assets/destinations/lucknow.jpg";
+import goaRoute from "../assets/destinations/goa-route.jpg";
+import bengaluruRoute from "../assets/destinations/bengaluru.jpg";
+import jaipurRoute from "../assets/destinations/jaipur-route.jpg";
+import darjeelingRoute from "../assets/destinations/darjeeling.jpg";
+import munnarRoute from "../assets/destinations/munnar.jpg";
+
 const photo = (seed, w = 800, h = 600) =>
   `https://picsum.photos/seed/${seed}/${w}/${h}`;
 
@@ -41,42 +48,42 @@ export const POPULAR_ROUTES = [
     to: "Delhi",
     priceFrom: 480,
     accent: "#4F9DFF",
-    photo: photo("lucknow-delhi", 500, 360),
+    photo: lucknowRoute,
   },
   {
     from: "Mumbai",
     to: "Goa",
     priceFrom: 890,
     accent: "#34E0A1",
-    photo: photo("mumbai-goa", 500, 360),
+    photo: goaRoute,
   },
   {
     from: "Bengaluru",
     to: "Chennai",
     priceFrom: 550,
     accent: "#8B7CFF",
-    photo: photo("bengaluru-chennai", 500, 360),
+    photo: bengaluruRoute,
   },
   {
     from: "Delhi",
     to: "Jaipur",
     priceFrom: 410,
     accent: "#FFB84D",
-    photo: photo("delhi-jaipur", 500, 360),
+    photo: jaipurRoute,
   },
   {
     from: "Kolkata",
     to: "Darjeeling",
     priceFrom: 690,
     accent: "#FF6FA5",
-    photo: photo("kolkata-darjeeling", 500, 360),
+    photo: darjeelingRoute,
   },
   {
     from: "Kochi",
     to: "Munnar",
     priceFrom: 340,
     accent: "#34E0A1",
-    photo: photo("kochi-munnar", 500, 360),
+    photo: munnarRoute,
   },
 ];
 

@@ -1,0 +1,62 @@
+spring:
+  application:
+    name: tripspot-backend
+  profiles:
+    active: dev
+
+server:
+  port: 8080
+
+tripspot:
+  jwt:
+    secret: ${JWT_SECRET:dev-only-secret-change-me-please-32-bytes-min}
+    expiration-ms: 86400000
+  webauthn:
+    rp-id: ${WEBAUTHN_RP_ID:localhost}
+    rp-name: TripSpot
+    origin: ${WEBAUTHN_ORIGIN:http://localhost:5173}
+  flights:
+    api-key: ${FLIGHTS_API_KEY:}
+  ml:
+    service-url: ${ML_SERVICE_URL:http://localhost:8000}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    url: jdbc:h2:file:./data/tripspot;DB_CLOSE_DELAY=-1
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    database-platform: org.hibernate.dialect.H2Dialect
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+---
+spring:
+  config:
+    activate:
+      on-profile: docker
+  datasource:
+    url: jdbc:postgresql://postgres:5432/tripspot
+    username: ${DB_USER:tripspot}
+    password: ${DB_PASSWORD:tripspot}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    database-platform: org.hibernate.dialect.PostgreSQLDialect

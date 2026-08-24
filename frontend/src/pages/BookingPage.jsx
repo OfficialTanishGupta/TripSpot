@@ -52,12 +52,18 @@ export default function BookingPage() {
   const [fingerprintError, setFingerprintError] = useState("");
   const [saveForNextTime, setSaveForNextTime] = useState(false);
 
-  useEffect(() => {
+    useEffect(() => {
     let cancelled = false;
     api
       .get("/api/users/me/passenger-profile")
       .then(({ data }) => {
-        if (!cancelled) setProfile(data);
+        if (cancelled) return;
+        setProfile(data);
+        // First booking after registering a fingerprint: default the "save for
+        // next time" checkbox to on, so opting in doesn't depend on noticing it.
+        if (data.hasFingerprint && (!data.passengers || data.passengers.length === 0)) {
+          setSaveForNextTime(true);
+        }
       })
       .catch(() => {
         if (!cancelled) setProfile({ hasFingerprint: false, email: "", phone: "", passengers: [] });
@@ -67,16 +73,6 @@ export default function BookingPage() {
     };
   }, []);
 
-  if (!option) {
-    return (
-      <div className="max-w-md mx-auto text-center py-20 text-mist">
-        No option selected.
-        <div className="mt-4">
-          <Button onClick={() => navigate("/dashboard")}>Back to search</Button>
-        </div>
-      </div>
-    );
-  }
 
   const showAutofillBanner =
     profile?.hasFingerprint && profile.passengers?.length > 0 && promptChoice === null;

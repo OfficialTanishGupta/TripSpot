@@ -1,5 +1,6 @@
 package com.tripspot.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ public class User {
     private String seatPreference;
     private String homeCity;
 
+    @JsonIgnore
     private String passwordHash;
 
     private Instant createdAt = Instant.now();

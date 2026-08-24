@@ -1,6 +1,16 @@
 package com.tripspot.model;
 
-import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "webauthn_credential")
@@ -10,6 +20,10 @@ public class WebAuthnCredential {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
+    // Breaks the User -> credentials -> user -> credentials... cycle that Jackson
+    // was walking infinitely (StackOverflowError) whenever a Booking or User got
+    // serialized for a user who had a registered fingerprint.
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;

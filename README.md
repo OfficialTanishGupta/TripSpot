@@ -1,1236 +1,1961 @@
-# ✈️ TripSpot
+**# ✈️ TripSpot**
 
-### AI-Powered Multi-Modal Travel Search & Fare Comparison Platform
+**### AI-Powered Multi-Modal Travel Search & Fare Comparison Platform**
 
-TripSpot is a full-stack travel transportation platform designed to help users **search, compare, personalize, and manage travel options across India**.
+TripSpot is a full-stack travel transportation platform designed to help users **\*\*search, compare, personalize, and manage travel options across India\*\***.
 
-Instead of checking cabs, buses, trains, and flights separately, TripSpot brings multiple transportation modes into a single platform and compares options based on **price, duration, comfort, availability, and user preferences**.
+Instead of checking cabs, buses, trains, and flights separately, TripSpot brings multiple transportation modes into a single platform and compares options based on **\*\*price, duration, comfort, availability, and user preferences\*\***.
 
-The platform also includes an **AI-powered personalization layer** that analyzes user behavior and inferred travel preferences to intelligently re-rank available routes.
+The platform also includes an **\*\*AI-powered personalization layer\*\*** that analyzes user behavior and inferred travel preferences to intelligently re-rank available routes.
 
----
+**---**
 
-## 🚀 Key Highlights
+**## 🚀 Key Highlights**
 
-- 🔎 Multi-modal transportation search
-- 🚕 Cab, 🚌 bus, 🚆 train, and ✈️ flight comparison
-- 🤖 AI-powered personalized route ranking
-- 🧠 KMeans-based user persona clustering
-- 📊 XGBoost-based preference ranking
-- 🔐 JWT-based authentication
-- 🔑 WebAuthn / Passkey authentication support
-- 💳 Detailed checkout and fare breakdown
-- ❤️ Wishlist and saved trips
-- 🔔 Price tracking and alerts
-- 🏙️ Dynamic city autocomplete
-- 💬 AI travel assistant
-- 🎙️ Voice-enabled AI interaction
-- 📈 Personalized travel insights
-- 🔌 Pluggable transport provider architecture
-- ⚡ React + Spring Boot + FastAPI microservice architecture
+\- 🔎 Multi-modal transportation search
 
----
+\- 🚕 Cab, 🚌 bus, 🚆 train, and ✈️ flight comparison
 
-# 🏗️ System Architecture
+\- 🤖 AI-powered personalized route ranking
 
-```text
-                         ┌─────────────────────────┐
-                         │      React Frontend      │
-                         │   Vite + Tailwind CSS    │
-                         │                         │
-                         │    localhost:5173       │
-                         └────────────┬────────────┘
-                                      │
-                                      │ REST API / JWT
-                                      ▼
-                         ┌─────────────────────────┐
-                         │    Spring Boot API      │
-                         │       Java 21           │
-                         │ Spring Security + JWT   │
-                         │                         │
-                         │    localhost:8080       │
-                         └──────┬─────────┬────────┘
-                                │         │
-                       JPA/H2   │         │ ML Requests
-                                ▼         ▼
-                     ┌──────────────┐  ┌─────────────────────┐
-                     │  H2 Database │  │   FastAPI ML        │
-                     │    + JPA     │  │     Service         │
-                     └──────────────┘  │                     │
-                                       │ KMeans + XGBoost   │
-                                       │                     │
-                                       │ localhost:8000      │
-                                       └─────────────────────┘
-```
+\- 🧠 KMeans-based user persona clustering
 
----
+\- 📊 XGBoost-based preference ranking
 
-# 🧠 How AI Personalization Works
+\- 🔐 JWT-based authentication
+
+\- 🔑 WebAuthn / Passkey authentication support
+
+- 👆 Fingerprint / device biometric booking authentication
+- 🧾 Saved passenger profile for faster repeat bookings
+- ⚡ Fingerprint-verified passenger detail autofill
+
+\- 💳 Detailed checkout and fare breakdown
+
+\- ❤️ Wishlist and saved trips
+
+\- 🔔 Price tracking and alerts
+
+\- 🏙️ Dynamic city autocomplete
+
+\- 💬 AI travel assistant
+
+\- 🎙️ Voice-enabled AI interaction
+
+\- 📈 Personalized travel insights
+
+\- 🔌 Pluggable transport provider architecture
+
+\- ⚡ React + Spring Boot + FastAPI microservice architecture
+
+**---**
+
+**# 🏗️ System Architecture**
+
+\`\`\`text
+
+                         ┌─────────────────────────┐
+
+                         │      React Frontend      │
+
+                         │   Vite + Tailwind CSS    │
+
+                         │                         │
+
+                         │    localhost:5173       │
+
+                         └────────────┬────────────┘
+
+                                      │
+
+                                      │ REST API / JWT
+
+                                      ▼
+
+                         ┌─────────────────────────┐
+
+                         │    Spring Boot API      │
+
+                         │       Java 21           │
+
+                         │ Spring Security + JWT   │
+
+                         │                         │
+
+                         │    localhost:8080       │
+
+                         └──────┬─────────┬────────┘
+
+                                │         │
+
+                       JPA/H2   │         │ ML Requests
+
+                                ▼         ▼
+
+                     ┌──────────────┐  ┌─────────────────────┐
+
+                     │  H2 Database │  │   FastAPI ML        │
+
+                     │    + JPA     │  │     Service         │
+
+                     └──────────────┘  │                     │
+
+                                       │ KMeans + XGBoost   │
+
+                                       │                     │
+
+                                       │ localhost:8000      │
+
+                                       └─────────────────────┘
+
+\`\`\`
+
+**---**
+
+**# 🧠 How AI Personalization Works**
 
 TripSpot doesn't simply return the cheapest or fastest route.
 
-The platform attempts to understand **what matters most to each user**.
+The platform attempts to understand **\*\*what matters most to each user\*\***.
 
 For example:
 
-### User A — Budget Traveler
+**### User A — Budget Traveler**
 
-```text
-Price        → High importance
-Duration     → Medium importance
-Comfort      → Low importance
-```
+\`\`\`text
+
+Price        → High importance
+
+Duration     → Medium importance
+
+Comfort      → Low importance
+
+\`\`\`
 
 TripSpot may rank:
 
-```text
+\`\`\`text
+
 ₹450 Bus
+
 ₹700 Train
+
 ₹1,800 Flight
-```
+
+\`\`\`
 
 higher than more expensive alternatives.
 
-### User B — Time-Conscious Traveler
+**### User B — Time-Conscious Traveler**
 
-```text
-Price        → Low importance
-Duration     → High importance
-Comfort      → Medium importance
-```
+\`\`\`text
+
+Price        → Low importance
+
+Duration     → High importance
+
+Comfort      → Medium importance
+
+\`\`\`
 
 The same search could instead rank:
 
-```text
+\`\`\`text
+
 ₹3,500 Flight
+
 ₹1,800 Train
+
 ₹700 Bus
-```
+
+\`\`\`
 
 higher.
 
----
+**---**
 
-# 🤖 ML Pipeline
+**# 🤖 ML Pipeline**
 
 TripSpot uses two major machine-learning components.
 
-## 1. KMeans Persona Clustering
+**## 1. KMeans Persona Clustering**
 
 KMeans is used to group users into behavioral personas based on travel preferences and historical interactions.
 
 Example personas:
 
-```text
-                    Users
-                      │
-                      ▼
-                Feature Engineering
-                      │
-                      ▼
-                 KMeans Clustering
-                      │
-          ┌───────────┼───────────┐
-          ▼           ▼           ▼
-      Budget       Balanced     Premium
-      Traveler     Traveler     Traveler
-```
+\`\`\`text
+
+                    Users
+
+                      │
+
+                      ▼
+
+                Feature Engineering
+
+                      │
+
+                      ▼
+
+                 KMeans Clustering
+
+                      │
+
+          ┌───────────┼───────────┐
+
+          ▼           ▼           ▼
+
+      Budget       Balanced     Premium
+
+      Traveler     Traveler     Traveler
+
+\`\`\`
 
 Possible user features include:
 
-- Average travel budget
-- Preferred transportation mode
-- Average trip duration
-- Booking frequency
-- Price sensitivity
-- Preference for faster routes
-- Preference for comfort
-- Historical interaction behavior
+\- Average travel budget
 
----
+\- Preferred transportation mode
 
-## 2. XGBoost Preference Ranking
+\- Average trip duration
+
+\- Booking frequency
+
+\- Price sensitivity
+
+\- Preference for faster routes
+
+\- Preference for comfort
+
+\- Historical interaction behavior
+
+**---**
+
+**## 2. XGBoost Preference Ranking**
 
 After determining the user's behavioral characteristics, XGBoost predicts the relative preference for available travel options.
 
 Conceptually:
 
-```text
+\`\`\`text
+
 User Profile
-     +
+
+     +
+
 Travel Option
-     +
+
+     +
+
 Route Features
-     │
-     ▼
- Feature Engineering
-     │
-     ▼
- XGBoost Ranking Model
-     │
-     ▼
- Personalized Score
-     +
- Personalized Reason
-```
+
+     │
+
+     ▼
+
+ Feature Engineering
+
+     │
+
+     ▼
+
+ XGBoost Ranking Model
+
+     │
+
+     ▼
+
+ Personalized Score
+
+     +
+
+ Personalized Reason
+
+\`\`\`
 
 Example response:
 
-```json
+\`\`\`json
+
 {
-  "personalizedScore": 0.91,
-  "personalizedReason": "Recommended because it is faster while remaining within your usual travel budget."
+
+  "personalizedScore": 0.91,
+
+  "personalizedReason": "Recommended because it is faster while remaining within your usual travel budget."
+
 }
-```
 
----
+\`\`\`
 
-# ✨ Features
+**---**
 
-## 🔎 Multi-Modal Search
+**# ✨ Features**
+
+**## 🔎 Multi-Modal Search**
 
 Search multiple transportation modes from one interface:
 
-- 🚕 Cabs
-- 🚌 Buses
-- 🚆 Trains
-- ✈️ Flights
+\- 🚕 Cabs
+
+\- 🚌 Buses
+
+\- 🚆 Trains
+
+\- ✈️ Flights
 
 Results can be compared based on:
 
-- Price
-- Duration
-- Departure
-- Arrival
-- Transportation type
-- Availability
-- Comfort
-- Personalized score
+\- Price
 
----
+\- Duration
 
-## 🏙️ Dynamic City Autocomplete
+\- Departure
+
+\- Arrival
+
+\- Transportation type
+
+\- Availability
+
+\- Comfort
+
+\- Personalized score
+
+**---**
+
+**## 🏙️ Dynamic City Autocomplete**
 
 TripSpot provides dynamic city suggestions while users type their origin and destination.
 
 Example:
 
-```text
+\`\`\`text
+
 From:
+
 Luckn...
-      ↓
+
+      ↓
+
 Lucknow
+
 Lucknow Airport
+
 Lucknow Railway Station
 
 To:
+
 Del...
-      ↓
+
+      ↓
+
 Delhi
+
 New Delhi
+
 Delhi Airport
-```
+
+\`\`\`
 
 The search interface is designed to support multi-city travel configuration.
 
----
+**---**
 
-# 🤖 AI Travel Assistant
+**# 🤖 AI Travel Assistant**
 
 TripSpot includes a floating conversational assistant that can help users with travel-related queries.
 
 Example:
 
-```text
+\`\`\`text
+
 User:
+
 What's the cheapest way to travel from Lucknow to Delhi?
 
 AI:
+
 Based on current available options, the bus is the
+
 lowest-cost option, while the train provides a better
+
 balance between price and travel time.
-```
+
+\`\`\`
 
 The interface also supports voice input.
 
----
+**---**
 
-# 💳 Checkout & Payment Flow
+**# 💳 Checkout & Payment Flow**
 
 TripSpot provides a detailed checkout experience before booking.
 
 The checkout page can display:
 
-```text
-Base Fare             ₹2,500
-Taxes                  ₹300
-Service Fee             ₹99
-Convenience Fee         ₹50
+\`\`\`text
+
+Base Fare             ₹2,500
+
+Taxes                  ₹300
+
+Service Fee             ₹99
+
+Convenience Fee         ₹50
+
 ────────────────────────────
-Total                 ₹2,949
-```
+
+Total                 ₹2,949
+
+\`\`\`
 
 This provides transparent pricing before the user confirms a booking.
 
+**---**
+
+\*\*# 👆 Fingerprint-Assisted Booking
+
+TripSpot extends its WebAuthn / Passkey authentication into the booking flow to reduce repetitive passenger-data entry for returning users.
+
+### Booking experience
+
+```text
+User clicks "Book"
+        │
+        ▼
+Booking Details Page
+        │
+        ├── No saved passenger profile
+        │        └── Fill details manually
+        │
+        └── Saved profile + registered WebAuthn credential
+                 │
+                 ▼
+          "Use fingerprint" prompt
+                 │
+          ┌──────┴──────┐
+          ▼             ▼
+     Fingerprint     Fill manually
+       verified
+          │
+          ▼
+  Saved passenger details
+      are autofilled
+          │
+          ▼
+    User reviews details
+          │
+          ▼
+       Payment
+```
+
+### How it works
+
+- A user can register a WebAuthn / Passkey credential from the account settings.
+- The credential is stored server-side as a WebAuthn credential associated with the authenticated user.
+- During booking, TripSpot checks whether the user has a registered credential and saved passenger information.
+- If available, the booking page offers a **Use fingerprint** option alongside **Fill manually**.
+- The browser invokes the device's supported biometric / passkey authentication through WebAuthn.
+- The backend verifies the WebAuthn assertion before allowing the saved profile to be used.
+- Saved passenger information is then matched to the required Adult / Child passenger slots.
+- Users can save or update passenger details for future bookings.
+- Users are still able to fill the booking form manually whenever they prefer.
+
+> **Privacy note:** TripSpot does not receive or store the user's raw fingerprint. WebAuthn uses the device's authenticator to perform cryptographic verification; the application stores the registered credential information required for verification.
+
+### Saved passenger profile
+
+The backend maintains a user-specific saved passenger profile containing:
+
+- Passenger name
+- Passenger age
+- Passenger type
+- Passenger display order
+- Contact phone number
+
+This allows repeat bookings to be completed faster while keeping the final booking form editable so users can verify the information before payment.
+
 ---
 
-# 🔐 Authentication & Security
+# 🔐 Authentication & Security\*\*
 
 TripSpot uses Spring Security for backend authentication.
 
-### Authentication mechanisms
+**### Authentication mechanisms**
 
-- JWT authentication
-- Stateless sessions
-- Password-based authentication
-- WebAuthn / Passkey support
-- Browser biometric authentication where supported
+\- JWT authentication
 
-### Request flow
+\- Stateless sessions
 
-```text
+\- Password-based authentication
+
+\- WebAuthn / Passkey support
+
+\- Browser biometric authentication where supported
+
+**### Request flow**
+
+\`\`\`text
+
 Login
-  │
-  ▼
+
+  │
+
+  ▼
+
 Spring Security
-  │
-  ▼
+
+  │
+
+  ▼
+
 JWT Generated
-  │
-  ▼
+
+  │
+
+  ▼
+
 Frontend Stores Token
-  │
-  ▼
+
+  │
+
+  ▼
+
 Authorization Header
-  │
-  ▼
+
+  │
+
+  ▼
+
 JwtAuthFilter
-  │
-  ▼
+
+  │
+
+  ▼
+
 Authenticated Request
-```
+
+\`\`\`
 
 Protected endpoints require a valid JWT.
 
----
+**---**
 
-# 🧩 Provider Architecture
+**# 🧩 Provider Architecture**
 
 TripSpot is designed around a pluggable transportation-provider architecture.
 
 Conceptually:
 
-```text
-                 Transport Aggregator
-                         │
-          ┌──────────────┼──────────────┐
-          ▼              ▼              ▼
-      CabProvider    BusProvider    TrainProvider
-          │              │              │
-          └──────────────┼──────────────┘
-                         ▼
-                  FlightProvider
-                         │
-                         ▼
-                  Normalized Results
-```
+\`\`\`text
+
+                 Transport Aggregator
+
+                         │
+
+          ┌──────────────┼──────────────┐
+
+          ▼              ▼              ▼
+
+      CabProvider    BusProvider    TrainProvider
+
+          │              │              │
+
+          └──────────────┼──────────────┘
+
+                         ▼
+
+                  FlightProvider
+
+                         │
+
+                         ▼
+
+                  Normalized Results
+
+\`\`\`
 
 Each provider can implement a common interface so that additional transportation services can be integrated without rewriting the core search system.
 
----
+**---**
 
-# 🛠️ Technology Stack
+**# 🛠️ Technology Stack**
 
-| Layer             | Technology          |
-| ----------------- | ------------------- |
-| Frontend          | React               |
-| Build Tool        | Vite                |
-| Styling           | Tailwind CSS v4     |
-| Backend           | Spring Boot 3       |
-| Language          | Java 21             |
-| Security          | Spring Security     |
-| Authentication    | JWT + WebAuthn      |
-| ORM               | Spring Data JPA     |
-| Database          | H2                  |
-| ML Service        | FastAPI             |
-| ML Language       | Python 3.12+        |
-| Clustering        | scikit-learn KMeans |
-| Ranking           | XGBoost             |
-| Validation        | Pydantic            |
-| API Communication | REST                |
-| Architecture      | Microservice-based  |
+\| Layer             | Technology          |
 
----
+\| ----------------- | ------------------- |
 
-# 📂 Project Structure
+\| Frontend          | React               |
 
-```text
+\| Build Tool        | Vite                |
+
+\| Styling           | Tailwind CSS v4     |
+
+\| Backend           | Spring Boot 3       |
+
+\| Language          | Java 21             |
+
+\| Security          | Spring Security     |
+
+\| Authentication    | JWT + WebAuthn      |
+
+\| ORM               | Spring Data JPA     |
+
+\| Database          | H2                  |
+
+\| ML Service        | FastAPI             |
+
+\| ML Language       | Python 3.12+        |
+
+\| Clustering        | scikit-learn KMeans |
+
+\| Ranking           | XGBoost             |
+
+\| Validation        | Pydantic            |
+
+\| API Communication | REST                |
+
+\| Architecture      | Microservice-based  |
+
+**---**
+
+**# 📂 Project Structure**
+
+\`\`\`text
+
 TripSpot/
+
 │
+
 ├── backend/
-│   ├── src/
-│   │   └── main/
-│   │       └── java/
-│   │           └── com/
-│   │               └── tripspot/
-│   │                   │
-│   │                   ├── config/
-│   │                   │   └── Security & JWT configuration
-│   │                   │
-│   │                   ├── controller/
-│   │                   │   ├── AuthController
-│   │                   │   ├── SearchController
-│   │                   │   ├── BookingController
-│   │                   │   └── UserController
-│   │                   │
-│   │                   ├── dto/
-│   │                   │   └── Request/Response DTOs
-│   │                   │
-│   │                   ├── model/
-│   │                   │   └── JPA entities
-│   │                   │
-│   │                   ├── provider/
-│   │                   │   └── Transport provider integrations
-│   │                   │
-│   │                   ├── repository/
-│   │                   │   └── Spring Data repositories
-│   │                   │
-│   │                   └── service/
-│   │                       ├── Authentication
-│   │                       ├── JWT
-│   │                       ├── Aggregator
-│   │                       └── WebAuthn
-│   │
-│   └── pom.xml
+
+│   ├── src/
+
+│   │   └── main/
+
+│   │       └── java/
+
+│   │           └── com/
+
+│   │               └── tripspot/
+
+│   │                   │
+
+│   │                   ├── config/
+
+│   │                   │   └── Security & JWT configuration
+
+│   │                   │
+
+│   │                   ├── controller/
+
+│   │                   │   ├── AuthController
+
+│   │                   │   ├── SearchController
+
+│   │                   │   ├── BookingController
+
+│   │                   │   └── UserController
+
+│   │                   │
+
+│   │                   ├── dto/
+
+│   │                   │   └── Request/Response DTOs
+
+│   │                   │
+
+│   │                   ├── model/
+
+│   │                   │   └── JPA entities
+
+│   │                   │
+
+│   │                   ├── provider/
+
+│   │                   │   └── Transport provider integrations
+
+│   │                   │
+
+│   │                   ├── repository/
+
+│   │                   │   └── Spring Data repositories
+
+│   │                   │
+
+│   │                   └── service/
+
+│   │                       ├── Authentication
+
+│   │                       ├── JWT
+
+│   │                       ├── Aggregator
+
+│   │                       └── WebAuthn
+
+│   │
+
+│   └── pom.xml
+
 │
+
 ├── frontend/
-│   ├── src/
-│   │   ├── api/
-│   │   │   └── Axios & API clients
-│   │   │
-│   │   ├── components/
-│   │   │   └── Reusable UI components
-│   │   │
-│   │   ├── context/
-│   │   │   ├── Authentication
-│   │   │   └── Theme
-│   │   │
-│   │   ├── layouts/
-│   │   │   └── Application layouts
-│   │   │
-│   │   ├── lib/
-│   │   │   └── WebAuthn & utilities
-│   │   │
-│   │   └── pages/
-│   │       ├── Dashboard
-│   │       ├── Explore
-│   │       ├── Wishlist
-│   │       └── PaymentPage
-│   │
-│   ├── package.json
-│   └── vite.config.js
+
+│   ├── src/
+
+│   │   ├── api/
+
+│   │   │   └── Axios & API clients
+
+│   │   │
+
+│   │   ├── components/
+
+│   │   │   └── Reusable UI components
+
+│   │   │
+
+│   │   ├── context/
+
+│   │   │   ├── Authentication
+
+│   │   │   └── Theme
+
+│   │   │
+
+│   │   ├── layouts/
+
+│   │   │   └── Application layouts
+
+│   │   │
+
+│   │   ├── lib/
+
+│   │   │   └── WebAuthn & utilities
+
+│   │   │
+
+│   │   └── pages/
+
+│   │       ├── Dashboard
+
+│   │       ├── Explore
+
+│   │       ├── Wishlist
+
+│   │       └── PaymentPage
+
+│   │
+
+│   ├── package.json
+
+│   └── vite.config.js
+
 │
+
 ├── ml-service/
-│   ├── app/
-│   │   ├── main.py
-│   │   ├── features.py
-│   │   ├── schemas.py
-│   │   ├── train_persona_model.py
-│   │   └── train_ranking_model.py
-│   │
-│   ├── data/
-│   │   └── Training datasets
-│   │
-│   ├── models/
-│   │   └── Serialized ML models
-│   │
-│   └── requirements.txt
+
+│   ├── app/
+
+│   │   ├── main.py
+
+│   │   ├── features.py
+
+│   │   ├── schemas.py
+
+│   │   ├── train_persona_model.py
+
+│   │   └── train_ranking_model.py
+
+│   │
+
+│   ├── data/
+
+│   │   └── Training datasets
+
+│   │
+
+│   ├── models/
+
+│   │   └── Serialized ML models
+
+│   │
+
+│   └── requirements.txt
+
 │
+
 └── README.md
-```
 
----
+\`\`\`
 
-# ⚙️ Prerequisites
+**---**
+
+**# ⚙️ Prerequisites**
 
 Make sure the following are installed:
 
-### Node.js
+**### Node.js**
 
 Recommended:
 
-```text
+\`\`\`text
+
 Node.js 18+
-```
 
-### Java
+\`\`\`
 
-```text
+**### Java**
+
+\`\`\`text
+
 Java 21
-```
 
-### Maven
+\`\`\`
+
+**### Maven**
 
 Maven 3.9+ recommended.
 
-### Python
+**### Python**
 
-```text
+\`\`\`text
+
 Python 3.12+
-```
 
----
+\`\`\`
 
-# 🚀 Getting Started
+**---**
 
-## 1. Clone the Repository
+**# 🚀 Getting Started**
 
-```bash
-git clone https://github.com/OfficialTanishGupta/TripSpot.git
+**## 1. Clone the Repository**
+
+\`\`\`bash
+
+git clone https\://github.com/OfficialTanishGupta/TripSpot.git
 
 cd TripSpot
-```
+
+\`\`\`
 
 Replace the repository URL with the actual TripSpot repository URL if the project uses a different repository name.
 
----
+**---**
 
-# ☕ 2. Start the Spring Boot Backend
+**# ☕ 2. Start the Spring Boot Backend**
 
 Open a terminal:
 
-```bash
+\`\`\`bash
+
 cd backend
-```
 
-### Windows
+\`\`\`
 
-```bash
-.\mvnw.cmd spring-boot:run
-```
+**### Windows**
 
-### Linux / macOS
+\`\`\`bash
 
-```bash
-./mvnw spring-boot:run
-```
+.\mvnw\.cmd spring-boot\:run
+
+\`\`\`
+
+**### Linux / macOS**
+
+\`\`\`bash
+
+./mvnw spring-boot\:run
+
+\`\`\`
 
 Backend:
 
-```text
-http://localhost:8080
-```
+\`\`\`text
+
+http\://localhost:8080
+
+\`\`\`
 
 Health endpoint:
 
-```text
-http://localhost:8080/actuator/health
-```
+\`\`\`text
 
----
+http\://localhost:8080/actuator/health
 
-# 🐍 3. Start the ML Service
+\`\`\`
+
+**---**
+
+**# 🐍 3. Start the ML Service**
 
 Open another terminal:
 
-```bash
+\`\`\`bash
+
 cd ml-service
-```
+
+\`\`\`
 
 Create a virtual environment:
 
-```bash
+\`\`\`bash
+
 python -m venv venv
-```
 
-### Windows PowerShell
+\`\`\`
 
-```powershell
+**### Windows PowerShell**
+
+\`\`\`powershell
+
 .\venv\Scripts\Activate.ps1
-```
 
-### Linux / macOS
+\`\`\`
 
-```bash
+**### Linux / macOS**
+
+\`\`\`bash
+
 source venv/bin/activate
-```
+
+\`\`\`
 
 Install dependencies:
 
-```bash
+\`\`\`bash
+
 pip install -r requirements.txt
-```
+
+\`\`\`
 
 Start FastAPI:
 
-```bash
-python -m uvicorn app.main:app --reload --port 8000
-```
+\`\`\`bash
+
+python -m uvicorn app.main\:app --reload --port 8000
+
+\`\`\`
 
 ML service:
 
-```text
-http://localhost:8000
-```
+\`\`\`text
+
+http\://localhost:8000
+
+\`\`\`
 
 FastAPI documentation:
 
-```text
-http://localhost:8000/docs
-```
+\`\`\`text
 
----
+http\://localhost:8000/docs
 
-# ⚛️ 4. Start the React Frontend
+\`\`\`
+
+**---**
+
+**# ⚛️ 4. Start the React Frontend**
 
 Open another terminal:
 
-```bash
+\`\`\`bash
+
 cd frontend
-```
+
+\`\`\`
 
 Install dependencies:
 
-```bash
+\`\`\`bash
+
 npm install
-```
+
+\`\`\`
 
 Start development server:
 
-```bash
+\`\`\`bash
+
 npm run dev
-```
+
+\`\`\`
 
 Frontend:
 
-```text
-http://localhost:5173
-```
+\`\`\`text
 
----
+http\://localhost:5173
 
-# 🔧 Environment Configuration
+\`\`\`
+
+**---**
+
+**# 🔧 Environment Configuration**
 
 Create:
 
-```text
+\`\`\`text
+
 frontend/.env
-```
+
+\`\`\`
 
 Add:
 
-```env
-VITE_API_BASE_URL=http://localhost:8080
-```
+\`\`\`env
+
+VITE_API_BASE_URL=http\://localhost:8080
+
+\`\`\`
 
 For production, use the deployed backend URL instead.
 
----
+**---**
 
-# 🔗 Service URLs
+**# 🔗 Service URLs**
 
 During local development:
 
-| Service       | URL                                     |
-| ------------- | --------------------------------------- |
-| Frontend      | `http://localhost:5173`                 |
-| Spring Boot   | `http://localhost:8080`                 |
-| FastAPI ML    | `http://localhost:8000`                 |
-| FastAPI Docs  | `http://localhost:8000/docs`            |
-| Spring Health | `http://localhost:8080/actuator/health` |
-| H2 Console    | Configurable through Spring Boot        |
+\| Service       | URL                                     |
 
----
+\| ------------- | --------------------------------------- |
 
-# 🔌 API Overview
+\| Frontend      | \`http\://localhost:5173\`                 |
 
-## Authentication
+\| Spring Boot   | \`http\://localhost:8080\`                 |
 
-```http
-POST /api/auth/**
-```
+\| FastAPI ML    | \`http\://localhost:8000\`                 |
+
+\| FastAPI Docs  | \`http\://localhost:8000/docs\`            |
+
+\| Spring Health | \`http\://localhost:8080/actuator/health\` |
+
+\| H2 Console    | Configurable through Spring Boot        |
+
+**---**
+
+**# 🔌 API Overview**
+
+**## Authentication**
+
+\`\`\`http
+
+POST /api/auth/\*\*
+
+\`\`\`
 
 Public endpoints for:
 
-- Registration
-- Login
-- Authentication challenges
-- WebAuthn / Passkey operations
+\- Registration
 
----
+\- Login
 
-## Search
+\- Authentication challenges
 
-```http
-GET /api/search/**
-```
+\- WebAuthn / Passkey operations
+
+**---**
+
+**## Search**
+
+\`\`\`http
+
+GET /api/search/\*\*
+
+\`\`\`
 
 Public endpoint for:
 
-- Route search
-- Transportation comparison
-- Fare information
-- Aggregated provider results
+\- Route search
 
----
+\- Transportation comparison
 
-## Health
+\- Fare information
 
-```http
+\- Aggregated provider results
+
+**---**
+
+**## Health**
+
+\`\`\`http
+
 GET /actuator/health
-```
+
+\`\`\`
 
 Used for service health monitoring.
 
----
+**---**
 
-## Protected APIs
+**## Protected APIs**
 
-```text
-/api/**
-```
+\`\`\`text
+
+/api/\*\*
+
+\`\`\`
 
 Most account-specific APIs require JWT authentication.
 
 Examples include:
 
-- User profile
-- Bookings
-- Wishlist
-- Personalized recommendations
-- Account settings
-- Travel history
+\- User profile
+
+\- Bookings
+
+\- Wishlist
+
+\- Personalized recommendations
+
+\- Account settings
+
+\- Travel history
+
+**---**
+
+\*\*## Booking & Saved Passenger Profile
+
+```http
+GET /api/users/me/passenger-profile
+PUT /api/users/me/passenger-profile
+```
+
+These authenticated endpoints expose and update the user's saved passenger profile used by the fingerprint-assisted booking flow.
+
+The profile response can indicate:
+
+- Whether a WebAuthn credential is registered
+- Saved email / phone information
+- Saved Adult / Child passenger details
+
+WebAuthn login / verification remains under:
+
+```http
+POST /api/auth/webauthn/login/options
+POST /api/auth/webauthn/login/verify
+```
 
 ---
 
-# 🔄 End-to-End Search Flow
+# 🔄 End-to-End Search Flow\*\*
 
 A typical personalized search follows this pipeline:
 
-```text
+\`\`\`text
+
 User
- │
- │ Search Request
- ▼
+
+ │
+
+ │ Search Request
+
+ ▼
+
 React Frontend
- │
- │ GET /api/search
- ▼
+
+ │
+
+ │ GET /api/search
+
+ ▼
+
 Spring Boot API
- │
- ▼
+
+ │
+
+ ▼
+
 Transport Aggregator
- │
- ├──── Cab Provider
- ├──── Bus Provider
- ├──── Train Provider
- └──── Flight Provider
- │
- ▼
+
+ │
+
+ ├──── Cab Provider
+
+ ├──── Bus Provider
+
+ ├──── Train Provider
+
+ └──── Flight Provider
+
+ │
+
+ ▼
+
 Normalized Transport Results
- │
- ▼
+
+ │
+
+ ▼
+
 User Context / Preferences
- │
- ▼
+
+ │
+
+ ▼
+
 FastAPI ML Service
- │
- ├── Feature Engineering
- │
- ├── KMeans Persona
- │
- └── XGBoost Ranking
- │
- ▼
+
+ │
+
+ ├── Feature Engineering
+
+ │
+
+ ├── KMeans Persona
+
+ │
+
+ └── XGBoost Ranking
+
+ │
+
+ ▼
+
 Personalized Results
- │
- ▼
+
+ │
+
+ ▼
+
 Spring Boot
- │
- ▼
+
+ │
+
+ ▼
+
 React Frontend
- │
- ▼
+
+ │
+
+ ▼
+
 Sorted Travel Options
-```
 
----
+\`\`\`
 
-# 📊 Example Personalized Result
+**---**
 
-```json
+**# 📊 Example Personalized Result**
+
+\`\`\`json
+
 {
-  "provider": "Example Transport Provider",
-  "mode": "TRAIN",
-  "origin": "Lucknow",
-  "destination": "Delhi",
-  "price": 1450,
-  "durationMinutes": 510,
-  "personalizedScore": 0.87,
-  "personalizedReason": "Good balance between travel time and price based on your previous choices."
+
+  "provider": "Example Transport Provider",
+
+  "mode": "TRAIN",
+
+  "origin": "Lucknow",
+
+  "destination": "Delhi",
+
+  "price": 1450,
+
+  "durationMinutes": 510,
+
+  "personalizedScore": 0.87,
+
+  "personalizedReason": "Good balance between travel time and price based on your previous choices."
+
 }
-```
 
-The frontend can use `personalizedScore` to rank the available options.
+\`\`\`
 
----
+The frontend can use \`personalizedScore\` to rank the available options.
 
-# 🧪 Machine Learning Pipeline
+**---**
 
-## Persona Model
+**# 🧪 Machine Learning Pipeline**
+
+**## Persona Model**
 
 Training script:
 
-```bash
+\`\`\`bash
+
 python app/train_persona_model.py
-```
+
+\`\`\`
 
 The model:
 
-```text
+\`\`\`text
+
 Synthetic / Historical User Data
-             │
-             ▼
-      Feature Engineering
-             │
-             ▼
-          KMeans
-             │
-             ▼
-      User Persona Cluster
-             │
-             ▼
-       Serialized Model
-```
 
----
+             │
 
-## Ranking Model
+             ▼
+
+      Feature Engineering
+
+             │
+
+             ▼
+
+          KMeans
+
+             │
+
+             ▼
+
+      User Persona Cluster
+
+             │
+
+             ▼
+
+       Serialized Model
+
+\`\`\`
+
+**---**
+
+**## Ranking Model**
 
 Training script:
 
-```bash
+\`\`\`bash
+
 python app/train_ranking_model.py
-```
+
+\`\`\`
 
 Pipeline:
 
-```text
+\`\`\`text
+
 User Features
-     +
+
+     +
+
 Route Features
-     +
+
+     +
+
 Persona Features
-     │
-     ▼
+
+     │
+
+     ▼
+
 Feature Engineering
-     │
-     ▼
+
+     │
+
+     ▼
+
 XGBoost
-     │
-     ▼
+
+     │
+
+     ▼
+
 Preference Score
-```
+
+\`\`\`
 
 Serialized models are stored inside:
 
-```text
+\`\`\`text
+
 ml-service/models/
-```
 
----
+\`\`\`
 
-# 🧪 Testing Strategy
+**---**
+
+**# 🧪 Testing Strategy**
 
 TripSpot uses multiple levels of testing.
 
-### Backend
+**### Backend**
 
 Test:
 
-- Authentication
-- JWT validation
-- Search APIs
-- Booking APIs
-- Provider aggregation
-- Error handling
+\- Authentication
 
-### ML Service
+\- JWT validation
+
+\- Search APIs
+
+\- Booking APIs
+
+\- Provider aggregation
+
+\- Error handling
+
+**### ML Service**
 
 Test:
 
-- Feature validation
-- Persona prediction
-- Ranking prediction
-- Invalid request handling
-- Model loading
+\- Feature validation
 
-### Integration
+\- Persona prediction
+
+\- Ranking prediction
+
+\- Invalid request handling
+
+\- Model loading
+
+**### Integration**
 
 The primary integration pipeline is:
 
-```text
+\`\`\`text
+
 Frontend
-   ↓
+
+   ↓
+
 Spring Boot
-   ↓
+
+   ↓
+
 Aggregator
-   ↓
+
+   ↓
+
 FastAPI
-   ↓
+
+   ↓
+
 Ranking
-   ↓
+
+   ↓
+
 Spring Boot
-   ↓
+
+   ↓
+
 Frontend
-```
+
+\`\`\`
 
 Integration tests should verify that data is preserved correctly throughout this pipeline.
 
----
+**---**
 
-# 🐛 Current Development Roadmap
+**# 🐛 Current Development Roadmap**
 
-## 🔴 Priority 1 — End-to-End Persona Verification
+**## 🔴 Priority 1 — End-to-End Persona Verification**
 
 Validate that the following values successfully travel through the complete authenticated flow:
 
-```text
+\`\`\`text
+
 User
- ↓
+
+ ↓
+
 Spring Boot
- ↓
+
+ ↓
+
 ML Service
- ↓
+
+ ↓
+
 Spring Boot
- ↓
+
+ ↓
+
 Frontend
-```
+
+\`\`\`
 
 Required fields:
 
-```text
+\`\`\`text
+
 personalizedScore
+
 personalizedReason
+
 persona
-```
 
----
+\`\`\`
 
-## 🔴 Priority 2 — JWT Exception Handling
+**---**
+
+**## 🔴 Priority 2 — JWT Exception Handling**
 
 Improve:
 
-```text
+\`\`\`text
+
 JwtAuthFilter#extractUserId
-```
+
+\`\`\`
 
 Invalid JWTs should not result in:
 
-```text
+\`\`\`text
+
 HTTP 500
-```
+
+\`\`\`
 
 Instead, malformed, expired, or invalid tokens should be handled gracefully and return an appropriate authentication response such as:
 
-```text
+\`\`\`text
+
 HTTP 401 Unauthorized
-```
 
----
+\`\`\`
 
-## 🟠 Priority 3 — Pipeline Integration Testing
+**---**
+
+**## 🟠 Priority 3 — Pipeline Integration Testing**
 
 Add automated tests covering:
 
-```text
+\`\`\`text
+
 Aggregator
-    ↓
+
+    ↓
+
 ML Request
-    ↓
+
+    ↓
+
 FastAPI
-    ↓
+
+    ↓
+
 ML Response
-    ↓
+
+    ↓
+
 Aggregator
-    ↓
+
+    ↓
+
 API Response
-```
 
----
+\`\`\`
 
-# 🗺️ Future Roadmap
+**---**
 
-### Phase 1 — Core Platform
+**# 🗺️ Future Roadmap**
 
-- [x] React frontend
-- [x] Spring Boot backend
-- [x] REST API architecture
-- [x] Authentication
-- [x] Search interface
-- [x] Transportation comparison
+**### Phase 1 — Core Platform**
 
-### Phase 2 — AI Personalization
+\- [x] React frontend
 
-- [x] ML microservice
-- [x] KMeans persona clustering
-- [x] XGBoost ranking
-- [x] Personalized score
-- [x] Personalized recommendation reason
+\- [x] Spring Boot backend
 
-### Phase 3 — Reliability
+\- [x] REST API architecture
 
-- [ ] End-to-end persona verification
-- [ ] JWT exception handling
-- [ ] Integration test suite
-- [ ] Provider failure handling
-- [ ] Request timeout handling
-- [ ] ML-service fallback strategy
+\- [x] Authentication
 
-### Phase 4 — Production Data
+\- [x] Search interface
 
-- [ ] Replace synthetic transportation data with real provider integrations
-- [ ] Provider API authentication
-- [ ] Real-time availability
-- [ ] Dynamic pricing
-- [ ] Caching
-- [ ] Rate-limit management
+\- [x] Transportation comparison
 
-### Phase 5 — Production Infrastructure
+**### Phase 2 — AI Personalization**
 
-- [ ] PostgreSQL migration
-- [ ] Redis caching
-- [ ] Docker containers
-- [ ] CI/CD pipeline
-- [ ] Centralized logging
-- [ ] Monitoring
-- [ ] Production deployment
+\- [x] ML microservice
 
-### Phase 6 — Advanced AI
+\- [x] KMeans persona clustering
 
-- [ ] Online preference learning
-- [ ] Recommendation feedback loop
-- [ ] Context-aware recommendations
-- [ ] Personalized travel planning
-- [ ] LLM-powered travel assistant
-- [ ] Natural-language trip search
+\- [x] XGBoost ranking
 
----
+\- [x] Personalized score
 
-# 🔒 Security Considerations
+\- [x] Personalized recommendation reason
+
+\*\*### Phase 3 — Booking & Authentication Experience
+
+- [x] WebAuthn / Passkey registration support
+- [x] Fingerprint-assisted booking verification
+- [x] Saved passenger profile
+- [x] Passenger detail autofill after WebAuthn verification
+- [x] Manual booking fallback
+
+### Phase 4 — Reliability\*\*
+
+\- [ ] End-to-end persona verification
+
+\- [ ] JWT exception handling
+
+\- [ ] Integration test suite
+
+\- [ ] Provider failure handling
+
+\- [ ] Request timeout handling
+
+\- [ ] ML-service fallback strategy
+
+**### Phase 5 — Production Data**
+
+\- [ ] Replace synthetic transportation data with real provider integrations
+
+\- [ ] Provider API authentication
+
+\- [ ] Real-time availability
+
+\- [ ] Dynamic pricing
+
+\- [ ] Caching
+
+\- [ ] Rate-limit management
+
+**### Phase 6 — Production Infrastructure**
+
+\- [ ] PostgreSQL migration
+
+\- [ ] Redis caching
+
+\- [ ] Docker containers
+
+\- [ ] CI/CD pipeline
+
+\- [ ] Centralized logging
+
+\- [ ] Monitoring
+
+\- [ ] Production deployment
+
+**### Phase 7 — Advanced AI**
+
+\- [ ] Online preference learning
+
+\- [ ] Recommendation feedback loop
+
+\- [ ] Context-aware recommendations
+
+\- [ ] Personalized travel planning
+
+\- [ ] LLM-powered travel assistant
+
+\- [ ] Natural-language trip search
+
+**---**
+
+**# 🔒 Security Considerations**
 
 TripSpot follows a security-first backend architecture.
 
 Important practices include:
 
-- Stateless JWT authentication
-- Spring Security filters
-- Protected API routes
-- Credential validation
-- WebAuthn / Passkeys
-- Server-side authorization
-- Environment-based configuration
-- No hardcoded secrets
-- Input validation
-- Exception handling
-- Secure authentication failure responses
+\- Stateless JWT authentication
+
+\- Spring Security filters
+
+\- Protected API routes
+
+\- Credential validation
+
+\- WebAuthn / Passkeys
+
+\- Server-side authorization
+
+\- Environment-based configuration
+
+\- No hardcoded secrets
+
+\- Input validation
+
+\- Exception handling
+
+\- Secure authentication failure responses
+
+### WebAuthn / Fingerprint Security
+
+The fingerprint-assisted booking feature follows the WebAuthn model:
+
+- Raw fingerprint data stays on the user's device / authenticator.
+- The application stores WebAuthn credential metadata and public-key material rather than the biometric itself.
+- A booking autofill request requires successful WebAuthn verification.
+- Saved passenger information is associated with the authenticated application user.
+- Manual form entry remains available as a fallback.
 
 Production deployments should additionally use:
 
-- HTTPS
-- Secure cookies where applicable
-- Secret management
-- Database encryption
-- API rate limiting
-- CORS restrictions
-- Request logging and monitoring
+\- HTTPS
 
----
+\- Secure cookies where applicable
 
-# 📈 Scalability
+\- Secret management
+
+\- Database encryption
+
+\- API rate limiting
+
+\- CORS restrictions
+
+\- Request logging and monitoring
+
+**---**
+
+**# 📈 Scalability**
 
 The architecture separates the application into independent services:
 
-```text
+\`\`\`text
+
 React
-  │
-  ▼
+
+  │
+
+  ▼
+
 Spring Boot
-  │
-  ├───────────────► Database
-  │
-  └───────────────► ML Service
-```
+
+  │
+
+  ├───────────────► Database
+
+  │
+
+  └───────────────► ML Service
+
+\`\`\`
 
 This allows the ML service to scale independently from the main application.
 
 For example:
 
-```text
-                    Load Balancer
-                         │
-             ┌───────────┴───────────┐
-             ▼                       ▼
-       Spring Boot #1          Spring Boot #2
-             │                       │
-             └───────────┬───────────┘
-                         ▼
-                     ML Service
-                  ┌──────┴──────┐
-                  ▼             ▼
-               ML #1          ML #2
-```
+\`\`\`text
+
+                    Load Balancer
+
+                         │
+
+             ┌───────────┴───────────┐
+
+             ▼                       ▼
+
+       Spring Boot #1          Spring Boot #2
+
+             │                       │
+
+             └───────────┬───────────┘
+
+                         ▼
+
+                     ML Service
+
+                  ┌──────┴──────┐
+
+                  ▼             ▼
+
+               ML #1          ML #2
+
+\`\`\`
 
 Future production infrastructure can introduce:
 
-- Docker
-- Kubernetes
-- Redis
-- PostgreSQL
-- Message queues
-- Horizontal scaling
+\- Docker
 
----
+\- Kubernetes
 
-# 🎨 UI/UX Philosophy
+\- Redis
+
+\- PostgreSQL
+
+\- Message queues
+
+\- Horizontal scaling
+
+**---**
+
+**# 🎨 UI/UX Philosophy**
 
 TripSpot follows a modern, minimalist design approach inspired by contemporary travel and technology platforms.
 
 Design principles:
 
-- Clean layouts
-- Minimal visual clutter
-- Responsive design
-- Clear pricing
-- Strong typography
-- Smooth interactions
-- Accessible controls
-- Mobile-friendly interfaces
-- Consistent component system
+\- Clean layouts
+
+\- Minimal visual clutter
+
+\- Responsive design
+
+\- Clear pricing
+
+\- Strong typography
+
+\- Smooth interactions
+
+\- Accessible controls
+
+\- Mobile-friendly interfaces
+
+\- Consistent component system
 
 The frontend is built using:
 
-```text
+\`\`\`text
+
 React
-+
+
+\+
+
 Vite
-+
+
+\+
+
 Tailwind CSS v4
-```
 
----
+\`\`\`
 
-# 💡 Why TripSpot?
+**---**
+
+**# 💡 Why TripSpot?**
 
 Traditional travel platforms often focus on a single transportation category.
 
 TripSpot aims to solve a broader problem:
 
-> **"What is the best way for me to travel from A to B?"**
+\> **\*\*"What is the best way for me to travel from A to B?"\*\***
 
 Instead of simply asking:
 
-```text
+\`\`\`text
+
 What is the cheapest option?
-```
+
+\`\`\`
 
 TripSpot asks:
 
-```text
+\`\`\`text
+
 What is the best option for THIS user?
-```
+
+\`\`\`
 
 That distinction enables personalized travel recommendations based on individual priorities.
 
----
+**---**
 
-# 🏆 Project Highlights
+**# 🏆 Project Highlights**
 
 TripSpot demonstrates practical experience across multiple engineering domains:
 
-### Frontend Engineering
+**### Frontend Engineering**
 
-- React
-- Vite
-- Tailwind CSS
-- State management
-- API integration
-- Responsive UI
+\- React
 
-### Backend Engineering
+\- Vite
 
-- Java 21
-- Spring Boot
-- REST APIs
-- Spring Security
-- JWT
-- JPA
-- Database design
-- Service architecture
+\- Tailwind CSS
 
-### Machine Learning
+\- State management
 
-- Python
-- scikit-learn
-- KMeans
-- XGBoost
-- Feature engineering
-- Model serialization
-- ML inference APIs
+\- API integration
 
-### System Design
+\- Responsive UI
 
-- Microservices
-- Service-to-service communication
-- API aggregation
-- Authentication architecture
-- Provider abstraction
-- Fault handling
-- Scalable service boundaries
+**### Backend Engineering**
 
----
+\- Java 21
 
-# 📌 Development Status
+\- Spring Boot
 
-```text
-Frontend             ████████████████████  Advanced
-Backend              ███████████████████░  Advanced
-Authentication      ██████████████████░░  In Progress
-Transport Aggregator ████████████████░░░░  In Progress
-ML Personalization  █████████████████░░░  In Progress
-Integration Testing  ████████░░░░░░░░░░░░  Planned
-Production Providers ██████░░░░░░░░░░░░░░  Planned
-Production Infra    ████░░░░░░░░░░░░░░░░  Planned
-```
+\- REST APIs
+
+\- Spring Security
+
+\- JWT
+
+\- JPA
+
+\- Database design
+
+\- Service architecture
+
+**### Machine Learning**
+
+\- Python
+
+\- scikit-learn
+
+\- KMeans
+
+\- XGBoost
+
+\- Feature engineering
+
+\- Model serialization
+
+\- ML inference APIs
+
+**### System Design**
+
+\- Microservices
+
+\- Service-to-service communication
+
+\- API aggregation
+
+\- Authentication architecture
+
+\- Provider abstraction
+
+\- Fault handling
+
+\- Scalable service boundaries
+
+**---**
+
+**# 📌 Development Status**
+
+\`\`\`text
+
+Frontend             ████████████████████  Advanced
+
+Backend              ███████████████████░  Advanced
+
+Authentication      ██████████████████░░  In Progress
+
+Transport Aggregator ████████████████░░░░  In Progress
+
+ML Personalization  █████████████████░░░  In Progress
+
+Integration Testing  ████████░░░░░░░░░░░░  Planned
+
+Production Providers ██████░░░░░░░░░░░░░░  Planned
+
+Production Infra    ████░░░░░░░░░░░░░░░░  Planned
+
+\`\`\`
 
 TripSpot is currently under active development.
 
----
+**---**
 
-# 📄 License
+**# 📄 License**
 
 This project is currently unlicensed.
 
 A suitable open-source license such as MIT may be added in the future.
 
----
+**---**
 
-# 👨‍💻 Author
+**# 👨‍💻 Author**
 
-**Tanish Gupta**
+**\*\*Tanish Gupta\*\***
 
 AI/ML Engineer | Full-Stack Developer
 
-GitHub: `OfficialTanishGupta`
+GitHub: \`OfficialTanishGupta\`
 
-Portfolio: `tanishgupta.site`
+Portfolio: \`tanishgupta.site\`
 
----
+**---**
 
-## ⭐ If You Like This Project
+**## ⭐ If You Like This Project**
 
 If TripSpot is useful or interesting, consider giving the repository a ⭐ and following the development of the project.
 
----
+**---**
 
-> **TripSpot — Search less. Compare smarter. Travel better.**
+\> **\*\*TripSpot — Search less. Compare smarter. Travel better.\*\***

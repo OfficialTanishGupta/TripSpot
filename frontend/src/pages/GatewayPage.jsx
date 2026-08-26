@@ -53,6 +53,14 @@ export default function GatewayPage() {
   const update = (field) => (e) =>
     setForm({ ...form, [field]: e.target.value });
 
+  // Switches sign-up/sign-in and clears the form so a password (or anything
+  // else) typed on one side never leaks into the other.
+  const switchMode = (m) => {
+    setMode(m);
+    setError("");
+    setForm({ fullName: "", email: "", password: "" });
+  };
+
   const finishAndEnter = (token, email) => {
     login(token || `demo-token-${Date.now()}`, email);
     navigate("/dashboard");
@@ -248,10 +256,7 @@ export default function GatewayPage() {
                 {["signup", "login"].map((m) => (
                   <button
                     key={m}
-                    onClick={() => {
-                      setMode(m);
-                      setError("");
-                    }}
+                    onClick={() => switchMode(m)}
                     className={`relative z-10 flex-1 rounded-lg text-xs font-bold transition-colors duration-200 ${mode === m ? "text-ink" : "text-mist-soft"}`}
                   >
                     {m === "signup" ? "Create account" : "Sign in"}
@@ -322,7 +327,7 @@ export default function GatewayPage() {
                 <button
                   className="text-violet font-semibold"
                   onClick={() =>
-                    setMode(mode === "signup" ? "login" : "signup")
+                    switchMode(mode === "signup" ? "login" : "signup")
                   }
                 >
                   {mode === "signup" ? "Sign in" : "Create one"}
